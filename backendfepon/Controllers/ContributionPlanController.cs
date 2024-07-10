@@ -35,11 +35,12 @@ namespace backendfepon.Controllers
                     .Where(p => p.State_Id == Constants.DEFAULT_STATE)
                     .Select(p => new ContributionPlanDTO
                     {
-                        Plan_Id = p.Plan_Id,
-                        Academic_Period_Name = p.AcademicPeriod.Academic_Period_Name,
-                        Name = p.Name,
-                        Economic_Value = p.Economic_Value,
-                        Benefits = p.Benefits
+                        id = p.Plan_Id,
+                        academicPeriod = p.AcademicPeriod.Academic_Period_Name,
+                        state_id = p.State_Id,
+                        planName = p.Name,
+                        price = p.Economic_Value,
+                        benefits = p.Benefits
                     })
                     .ToListAsync();
 
@@ -63,11 +64,12 @@ namespace backendfepon.Controllers
                     .Where(p => p.State_Id == Constants.DEFAULT_STATE && p.Plan_Id == id)
                     .Select(p => new ContributionPlanDTO
                     {
-                        Plan_Id = p.Plan_Id,
-                        Academic_Period_Name = p.AcademicPeriod.Academic_Period_Name,
-                        Name = p.Name,
-                        Economic_Value = p.Economic_Value,
-                        Benefits = p.Benefits
+                        id = p.Plan_Id,
+                        academicPeriod = p.AcademicPeriod.Academic_Period_Name,
+                        state_id = p.State_Id,
+                        planName = p.Name,
+                        price = p.Economic_Value,
+                        benefits = p.Benefits
                     })
                     .FirstOrDefaultAsync();
 

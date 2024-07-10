@@ -21,7 +21,8 @@ namespace backendfepon.DTOs.ContributorDTO
         */
 
         public int Id { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
+        public int State_id { get; set; }
         public string Name { get; set; }
         public string Faculty { get; set; }
         public string Career { get; set; }

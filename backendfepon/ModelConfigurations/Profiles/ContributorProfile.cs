@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using backendfepon.DTOs.ContributorDTO;
 using backendfepon.Models;
+using System.Globalization;
 
 namespace backendfepon.ModelConfigurations.Profiles
 {
@@ -11,8 +12,9 @@ namespace backendfepon.ModelConfigurations.Profiles
             // Mapping from Contributor to ContributorDTO
             CreateMap<Contributor, ContributorDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Contributor_Id))
+                .ForMember(dest => dest.State_id, opt => opt.MapFrom(src => src.State_Id))
                 .ForMember(dest => dest.Plan, opt => opt.MapFrom(src => src.ContributionPlan.Name))
-                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Contributor_Date.ToString()))
+                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Contributor_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.ContributionPlan.Economic_Value))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Faculty, opt => opt.MapFrom(src => src.Faculty.Faculty_Name))

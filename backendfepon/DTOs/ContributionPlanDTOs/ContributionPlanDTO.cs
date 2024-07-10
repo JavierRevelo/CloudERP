@@ -2,10 +2,11 @@
 {
     public class ContributionPlanDTO
     {
-        public int Plan_Id { get; set; }
-        public string Academic_Period_Name { get; set; }
-        public string Name { get; set; }
-        public string Benefits { get; set; }
-        public decimal Economic_Value { get; set; }
+        public int id { get; set; }
+         public int state_id { get; set; }
+        public string academicPeriod { get; set; }
+        public string planName { get; set; }
+        public string benefits { get; set; }
+        public decimal price { get; set; }
     }
 }
