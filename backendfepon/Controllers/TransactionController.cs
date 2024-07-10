@@ -88,19 +88,21 @@ namespace backendfepon.Controllers
 
         [HttpPost]
         public async Task<ActionResult<TransactionDTO>> PostTransaction(CreateUpdateTransactionDTO transactionDTO)
-
         {
             CypherAES cy = new CypherAES();
 
             try
             {
-                var originAccount = await _context.CAccountinngAccounts.FirstOrDefaultAsync(a => a.AccountType.Account_Type_Name == transactionDTO.Origin_Account);
+                // Obtén todas las cuentas y desencripta en memoria
+                var allAccounts = await _context.CAccountinngAccounts.ToListAsync();
+
+                var originAccount = allAccounts.FirstOrDefault(a => cy.DecryptStringFromBytes_Aes(a.Account_Name, _key, _iv) == transactionDTO.Origin_Account);
                 if (originAccount == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "Nombre de cuenta de origen no válido."));
                 }
 
-                var destinationAccount = await _context.CAccountinngAccounts.FirstOrDefaultAsync(a => cy.DecryptStringFromBytes_Aes(a.Account_Name, _key, _iv) == transactionDTO.Destination_Account);
+                var destinationAccount = allAccounts.FirstOrDefault(a => cy.DecryptStringFromBytes_Aes(a.Account_Name, _key, _iv) == transactionDTO.Destination_Account);
                 if (destinationAccount == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "Nombre de cuenta de destino no válido."));
@@ -109,7 +111,7 @@ namespace backendfepon.Controllers
                 var transactionType = await _context.TransactionTypes.FirstOrDefaultAsync(a => a.Transaction_Type_Name == transactionDTO.transactionType);
                 if (transactionType == null)
                 {
-                    return BadRequest(GenerateErrorResponse(400, "Nombre de cuenta de destino no válido."));
+                    return BadRequest(GenerateErrorResponse(400, "Tipo de transacción no válido."));
                 }
 
                 var transaction = _mapper.Map<Transaction>(transactionDTO);
