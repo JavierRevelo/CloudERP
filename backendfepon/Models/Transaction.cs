@@ -23,8 +23,6 @@
         public TransactionType TransactionType { get; set; }
 
 
-        public InventoryMovement InventoryMovement { get; set; }
-
         //cypher
         public CAccountingAccount DestinationAccount { get; set; }
         public CAccountingAccount OriginAccount { get; set; }

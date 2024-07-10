@@ -35,14 +35,16 @@ namespace backendfepon.Controllers
                     .Where(p => p.State_Id == Constants.DEFAULT_STATE)
                     .Select(p => new ProductDTO
                     {
-                        Product_Id = p.Product_Id,
-                        Name = p.Name,
-                        Description = p.Description,
-                        Economic_Value = p.Economic_Value,
-                        Quantity = p.Quantity,
-                        Label = p.Label,
-                        Category_Name = p.Category.Description,
-                        Provider_Name = p.Provider.Name
+                        id = p.Product_Id,
+                        stateid = p.State_Id,
+                        name = p.Name,
+
+                        description = p.Description,
+                        price = p.Economic_Value,
+                        quantity = p.Quantity,
+                        label = p.Label,
+                        category = p.Category.Description,
+                        provider = p.Provider.Name
                     })
                     .ToListAsync();
 
@@ -67,14 +69,16 @@ namespace backendfepon.Controllers
                     .Where(p => p.State_Id == Constants.DEFAULT_STATE && p.Product_Id == id)
                     .Select(p => new ProductDTO
                     {
-                        Product_Id = p.Product_Id,
-                        Name = p.Name,
-                        Description = p.Description,
-                        Economic_Value = p.Economic_Value,
-                        Quantity = p.Quantity,
-                        Label = p.Label,
-                        Category_Name = p.Category.Description,
-                        Provider_Name = p.Provider.Name
+                        id = p.Product_Id,
+                        stateid = p.State_Id,
+
+                        name = p.Name,
+                        description = p.Description,
+                        price = p.Economic_Value,
+                        quantity = p.Quantity,
+                        label = p.Label,
+                        category = p.Category.Description,
+                        provider = p.Provider.Name
                     })
                     .FirstOrDefaultAsync();
 

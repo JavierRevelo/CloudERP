@@ -9,10 +9,15 @@ namespace backendfepon.ModelConfigurations.Profiles
         public AssociationProfile()
         {
 
-            CreateMap<CreateUpdateAssociationDTO, Association>()
-                .ForMember(dest => dest.State_Id, opt => opt.Ignore());
+            CreateMap<Association, AssociationDTO>()
+           .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Association_Id))
+           .ForMember(dest => dest.state_id, opt => opt.MapFrom(src => src.State_Id))
+           .ForMember(dest => dest.mission, opt => opt.MapFrom(src => src.Mission))
+           .ForMember(dest => dest.vision, opt => opt.MapFrom(src => src.Vision));
 
-            CreateMap<Association, AssociationDTO>();
+            CreateMap<CreateUpdateAssociationDTO, Association>()
+                .ForMember(dest => dest.Mission, opt => opt.MapFrom(src => src.Mission))
+                .ForMember(dest => dest.Vision, opt => opt.MapFrom(src => src.Vision));
         }
     }
 }

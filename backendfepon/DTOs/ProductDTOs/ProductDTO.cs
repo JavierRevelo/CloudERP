@@ -2,21 +2,22 @@
 {
     public class ProductDTO
     {
-        public int Product_Id { get; set; }
+        public int id { get; set; }
+        public int stateid { get; set; }
 
-        public string Category_Name { get; set; }
+        public string category { get; set; }
 
-        public string Name { get; set; } = null!;
+        public string name { get; set; } = null!;
 
-        public string Description { get; set; } = null!;
+        public string description { get; set; } = null!;
 
-        public decimal? Economic_Value { get; set; }
+        public decimal? price { get; set; }
 
-        public int Quantity { get; set; }
+        public int quantity { get; set; }
 
-        public string Label { get; set; } = null!;
+        public string label { get; set; } = null!;
 
 
-        public string Provider_Name { get; set; }
+        public string provider { get; set; }
     }
 }

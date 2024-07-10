@@ -5,6 +5,7 @@ using backendfepon.DTOs.EventDTOs;
 using backendfepon.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace backendfepon.Controllers
 {
@@ -31,16 +32,16 @@ namespace backendfepon.Controllers
                     .Include(p => p.State)
                     .Select(p => new EventDTO
                     {
-                        Event_Id = p.Event_Id,
-                        State_Name = p.State.Event_State_Name,
-                        Title = p.Title,
-                        Description = p.Description,
-                        Start_Date = p.Start_Date,
-                        End_Date = p.End_Date,
-                        Budget = p.Budget,
-                        Status = p.Status,
-                        Budget_Status = p.Budget_Status,
-                        Event_Location = p.Event_Location,
+                        id = p.Event_Id,
+                        stateid = p.State.Event_State_Name,
+                        title = p.Title,
+                        description = p.Description,
+                        startDate = p.Start_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                        endDate = p.End_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                        budget = p.Budget,
+                        status = p.Status,
+                        budgetStatus = p.Budget_Status,
+                        location = p.Event_Location,
                         //Hiring = p.Hiring
                     })
                     .ToListAsync();
@@ -64,16 +65,16 @@ namespace backendfepon.Controllers
                     .Where(p => p.State_Id == id)
                     .Select(p => new EventDTO
                     {
-                        Event_Id = p.Event_Id,
-                        State_Name = p.State.Event_State_Name,
-                        Title = p.Title,
-                        Description = p.Description,
-                        Start_Date = p.Start_Date,
-                        End_Date = p.End_Date,
-                        Budget = p.Budget,
-                        Status = p.Status,
-                        Budget_Status = p.Budget_Status,
-                        Event_Location = p.Event_Location,
+                        id = p.Event_Id,
+                        stateid = p.State.Event_State_Name,
+                        title = p.Title,
+                        description = p.Description,
+                        startDate = p.Start_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                        endDate = p.End_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                        budget = p.Budget,
+                        status = p.Status,
+                        budgetStatus = p.Budget_Status,
+                        location = p.Event_Location,
                         //Hiring = p.Hiring
                     })
                     .FirstOrDefaultAsync();

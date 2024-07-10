@@ -10,7 +10,7 @@ namespace backendfepon.ModelConfigurations.Profiles
         {
             // Mapping from ContributionPlan to ContributionPlanDTO
             CreateMap<ContributionPlan, ContributionPlanDTO>()
-                .ForMember(dest => dest.Academic_Period_Name, opt => opt.MapFrom(src => src.AcademicPeriod.Academic_Period_Name));
+                .ForMember(dest => dest.academicPeriod, opt => opt.MapFrom(src => src.AcademicPeriod.Academic_Period_Name));
 
             // Mapping from CreateUpdateContributionPlanDTO to ContributionPlan
             CreateMap<CreateUpdateContributionPlanDTO, ContributionPlan>()

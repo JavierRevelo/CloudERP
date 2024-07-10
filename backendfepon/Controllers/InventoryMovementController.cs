@@ -6,6 +6,7 @@ using backendfepon.DTOs.ProductDTOs;
 using backendfepon.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace backendfepon.Controllers
 {
@@ -29,17 +30,15 @@ namespace backendfepon.Controllers
             try
             {
                 var inventoryMovements = await _context.InventoryMovements
-                    .Include(p => p.Transaction)
                     .Include(p => p.InventoryMovementType)
                     .Include(p => p.Product)
                     .Select(p => new InventoryMovementDTO
                     {
-                        Movement_Id = p.Movement_Id,
-                        Transaction_Id = p.Transaction_Id,
-                        Inventory_Movement_Name = p.InventoryMovementType.Movement_Type_Name,
-                        Product_Name = p.Product.Name,
-                        Quantity = p.Quantity,
-                        Date = p.Date
+                        id = p.Movement_Id,
+                        movementType = p.InventoryMovementType.Movement_Type_Name,
+                        product = p.Product.Name,
+                        quantity = p.Quantity,
+                        date = p.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
                     })
                     .ToListAsync();
 
@@ -58,18 +57,16 @@ namespace backendfepon.Controllers
             try
             {
                 var inventoryMovement = await _context.InventoryMovements
-                    .Include(p => p.Transaction)
                     .Include(p => p.InventoryMovementType)
                     .Include(p => p.Product)
                     .Where(p => p.Movement_Id == id)
                     .Select(p => new InventoryMovementDTO
                     {
-                        Movement_Id = p.Movement_Id,
-                        Transaction_Id = p.Transaction_Id,
-                        Inventory_Movement_Name = p.InventoryMovementType.Movement_Type_Name,
-                        Product_Name = p.Product.Name,
-                        Quantity = p.Quantity,
-                        Date = p.Date
+                        id = p.Movement_Id,
+                        movementType = p.InventoryMovementType.Movement_Type_Name,
+                        product = p.Product.Name,
+                        quantity = p.Quantity,
+                        date = p.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
                     })
                     .FirstOrDefaultAsync();
 

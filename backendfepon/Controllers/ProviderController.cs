@@ -29,10 +29,10 @@ namespace backendfepon.Controllers
                 var providers = await _context.Providers
                     .Select(p => new ProviderDTO
                     {
-                        Provider_Id = p.Provider_Id,
-                        Name = p.Name,
-                        Phone = p.Phone,
-                        Email = p.Email
+                        id = p.Provider_Id,
+                        name = p.Name,
+                        phone = p.Phone,
+                        email = p.Email
                     })
                     .ToListAsync();
 
@@ -54,10 +54,10 @@ namespace backendfepon.Controllers
                     .Where(p => p.Provider_Id == id)
                     .Select(p => new ProviderDTO
                     {
-                        Provider_Id = p.Provider_Id,
-                        Name = p.Name,
-                        Phone = p.Phone,
-                        Email = p.Email
+                        id = p.Provider_Id,
+                        name = p.Name,
+                        phone = p.Phone,
+                        email = p.Email
                     })
                     .FirstOrDefaultAsync();
 
@@ -92,10 +92,10 @@ namespace backendfepon.Controllers
 
                 var createdProviderDTO = new ProviderDTO
                 {
-                    Provider_Id = provider.Provider_Id,
-                    Name = provider.Name,
-                    Phone = provider.Phone,
-                    Email = provider.Email
+                    id = provider.Provider_Id,
+                    name = provider.Name,
+                    phone = provider.Phone,
+                    email = provider.Email
                 };
 
                 return CreatedAtAction(nameof(GetProvider), new { id = provider.Provider_Id }, createdProviderDTO);

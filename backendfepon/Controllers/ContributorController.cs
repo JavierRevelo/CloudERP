@@ -7,6 +7,7 @@ using backendfepon.Models;
 using backendfepon.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace backendfepon.Controllers
 {
@@ -33,15 +34,16 @@ namespace backendfepon.Controllers
             {
                 var contributors = await _context.Contributors
                     .Include(t => t.Transaction)
+                    .Include(p => p.State)
                     .Include(t => t.ContributionPlan)
-                    //.Include(t => t.Student)
                     .Where(p => p.State_Id == Constants.DEFAULT_STATE)
                     .Select(p => new ContributorDTO
                     {
                         Id = p.Contributor_Id,
                         Plan = p.ContributionPlan.Name,
+                        State_id = p.State_Id,
                         Price = p.ContributionPlan.Economic_Value.ToString(),
-                        Date = p.Contributor_Date,
+                        Date = p.Contributor_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
                         Name = p.Name,
                         Career = p.Career.Career_Name,
                         Faculty = p.Faculty.Faculty_Name,
@@ -65,15 +67,16 @@ namespace backendfepon.Controllers
             {
                 var contributor = await _context.Contributors
                     .Include(t => t.Transaction)
+                    .Include(p => p.State)
                     .Include(t => t.ContributionPlan)
-                    //.Include(t => t.Student)
                     .Where(p => p.State_Id == Constants.DEFAULT_STATE && p.Contributor_Id == id)
                     .Select(p => new ContributorDTO
                     {
                         Id = p.Contributor_Id,
                         Plan = p.ContributionPlan.Name,
+                        State_id = p.State_Id,
                         Price = p.ContributionPlan.Economic_Value.ToString(),
-                        Date = p.Contributor_Date,
+                        Date = p.Contributor_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
                         Name = p.Name,
                         Career = p.Career.Career_Name,
                         Faculty = p.Faculty.Faculty_Name,
