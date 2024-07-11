@@ -1,6 +1,8 @@
-﻿using backendfepon.Cypher;
+﻿using AutoMapper;
+using backendfepon.Cypher;
 using backendfepon.Data;
 using backendfepon.DTOs.AccountingAccountDTOs;
+using backendfepon.DTOs.ProductDTOs;
 using backendfepon.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,13 +21,15 @@ namespace backendfepon.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
         private readonly byte[]? _key;
         private readonly byte[]? _iv;
 
-        public AccountingAccountController(ApplicationDbContext context, IConfiguration configuration)
+        public AccountingAccountController(ApplicationDbContext context, IConfiguration configuration, IMapper mapper)
         {
             _context = context;
             _configuration = configuration;
+            _mapper = mapper;
             _iv = Convert.FromBase64String(_configuration["AESConfig:IV"]);
             _key = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(_configuration["AESConfig:KEY"]));
         }
@@ -56,13 +60,13 @@ namespace backendfepon.Controllers
                 {
                     var account = new AccountingAccountDTO
                     {
-                        Account_Id = cAccount.Account_Id,
-                        Account_Type_Name = cAccount.Account_Type_Name,
-                        Account_Name = cy.DecryptStringFromBytes_Aes(cAccount.Account_Name, _key, _iv),
-                        Current_Value = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Current_Value, _key, _iv)),
-                        Initial_Balance_Date = DateTime.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance_Date, _key, _iv)),
-                        Initial_Balance = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance, _key, _iv)),
-                        Accounting_Account_Status = cy.DecryptStringFromBytes_Aes(cAccount.Accounting_Account_Status, _key, _iv),
+                        id = cAccount.Account_Id,
+                        accountType = cAccount.Account_Type_Name,
+                        accountName = cy.DecryptStringFromBytes_Aes(cAccount.Account_Name, _key, _iv),
+                        currentValue = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Current_Value, _key, _iv)),
+                        date = DateTime.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance_Date, _key, _iv)),
+                        initialBalance = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance, _key, _iv)),
+                        accountingAccountStatus = cy.DecryptStringFromBytes_Aes(cAccount.Accounting_Account_Status, _key, _iv),
                     };
                     dAccounts.Add(account);
                 }
@@ -104,13 +108,13 @@ namespace backendfepon.Controllers
 
                 var dAccount = new AccountingAccountDTO
                 {
-                    Account_Id = cAccount.Account_Id,
-                    Account_Type_Name = cAccount.Account_Type_Name,
-                    Account_Name = cy.DecryptStringFromBytes_Aes(cAccount.Account_Name, _key, _iv),
-                    Current_Value = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Current_Value, _key, _iv)),
-                    Initial_Balance_Date = DateTime.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance_Date, _key, _iv)),
-                    Initial_Balance = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance, _key, _iv)),
-                    Accounting_Account_Status = cy.DecryptStringFromBytes_Aes(cAccount.Accounting_Account_Status, _key, _iv),
+                    id = cAccount.Account_Id,
+                    accountType = cAccount.Account_Type_Name,
+                    accountName = cy.DecryptStringFromBytes_Aes(cAccount.Account_Name, _key, _iv),
+                    currentValue = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Current_Value, _key, _iv)),
+                    date = DateTime.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance_Date, _key, _iv)),
+                    initialBalance = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance, _key, _iv)),
+                    accountingAccountStatus = cy.DecryptStringFromBytes_Aes(cAccount.Accounting_Account_Status, _key, _iv),
                 };
 
                 return Ok(dAccount);
@@ -123,29 +127,47 @@ namespace backendfepon.Controllers
 
         // POST: api/AccountingAccount
         [HttpPost]
-        public async Task<ActionResult<CAccountingAccount>> PostAccountingAccount(CreateUpdateAccountingAccountDTO accounntingAccountDTO)
+        public async Task<ActionResult<AccountingAccountDTO>> PostAccountingAccount(CreateUpdateAccountingAccountDTO accounntingAccountDTO)
         {
             try
             {
                 CypherAES cy = new CypherAES();
-                var accountingAccount = new CAccountingAccount
+                var category = await _context.AccountTypes.FirstOrDefaultAsync(c => c.Account_Type_Name == accounntingAccountDTO.accountType);
+                if (category == null)
                 {
-                    Account_Type_Id = accounntingAccountDTO.Account_Type_Id,
-                    Account_Name = cy.EncryptStringToBytes_AES(accounntingAccountDTO.Account_Name, _key, _iv),
-                    Current_Value = cy.EncryptStringToBytes_AES(accounntingAccountDTO.Current_Value.ToString(), _key, _iv),
-                    Initial_Balance_Date = cy.EncryptStringToBytes_AES(accounntingAccountDTO.Initial_Balance_Date.ToString(), _key, _iv),
-                    Initial_Balance = cy.EncryptStringToBytes_AES(accounntingAccountDTO.Initial_Balance.ToString(), _key, _iv),
-                    Accounting_Account_Status = cy.EncryptStringToBytes_AES(accounntingAccountDTO.Accounting_Account_Status, _key, _iv),
+                    return BadRequest(GenerateErrorResponse(400, "Nombre de tipo de cuenta no válido."));
+                }
+
+                var accountingA = new CAccountingAccount { 
+                    Accounting_Account_Status= cy.EncryptStringToBytes_AES(category.Account_Type_Name,_key,_iv),
+                    Account_Name= cy.EncryptStringToBytes_AES(accounntingAccountDTO.accountName, _key, _iv),
+                    Account_Type_Id=category.Account_Type_Id,
+                    Current_Value= cy.EncryptStringToBytes_AES(accounntingAccountDTO.currentValue.ToString(), _key, _iv) ,
+                    Initial_Balance= cy.EncryptStringToBytes_AES(accounntingAccountDTO.initialBalance.ToString(), _key, _iv) ,
+                    Initial_Balance_Date= cy.EncryptStringToBytes_AES(accounntingAccountDTO.date.ToString(), _key, _iv) ,
                 };
-                _context.CAccountinngAccounts.Add(accountingAccount);
+
+                /*
+                  var product = _mapper.Map<AccountingAccount>(accounntingAccountDTO);
+
+                  product.State_Id = Constants.DEFAULT_STATE;
+                  product.Category_Id = category.Category_Id;
+                  product.Provider_Id = provider.Provider_Id;
+               */
+                _context.CAccountinngAccounts.Add(accountingA);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(GetAccountingAccount), new { id = accountingAccount.Account_Id }, accountingAccount);
+                var createdAccountingDTO = new AccountingAccountDTO
+                {
+                    id= accountingA.Account_Id,
+                };
+                return CreatedAtAction(nameof(GetAccountingAccount), new { id = createdAccountingDTO.id}, createdAccountingDTO);
             }
             catch
             {
-                return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor."));
+                return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible crear el producto"));
             }
+
         }
 
         // PUT: api/AccountingAccount/5
@@ -162,12 +184,12 @@ namespace backendfepon.Controllers
                     return BadRequest(GenerateErrorResponse(400, "ID de cuenta contable no válido."));
                 }
 
-                accountingAccount.Account_Type_Id = updatedAccountingAccount.Account_Type_Id;
-                accountingAccount.Account_Name = cy.EncryptStringToBytes_AES(updatedAccountingAccount.Account_Name, _key, _iv);
-                accountingAccount.Current_Value = cy.EncryptStringToBytes_AES(updatedAccountingAccount.Current_Value.ToString(), _key, _iv);
-                accountingAccount.Initial_Balance_Date = cy.EncryptStringToBytes_AES(updatedAccountingAccount.Initial_Balance_Date.ToString(), _key, _iv);
-                accountingAccount.Initial_Balance = cy.EncryptStringToBytes_AES(updatedAccountingAccount.Initial_Balance.ToString(), _key, _iv);
-                accountingAccount.Accounting_Account_Status = cy.EncryptStringToBytes_AES(updatedAccountingAccount.Accounting_Account_Status.ToString(), _key, _iv);
+                //accountingAccount.Account_Type_Id = updatedAccountingAccount.Account_Type_Id;
+                accountingAccount.Account_Name = cy.EncryptStringToBytes_AES(updatedAccountingAccount.accountName, _key, _iv);
+                accountingAccount.Current_Value = cy.EncryptStringToBytes_AES(updatedAccountingAccount.currentValue.ToString(), _key, _iv);
+                accountingAccount.Initial_Balance_Date = cy.EncryptStringToBytes_AES(updatedAccountingAccount.date.ToString(), _key, _iv);
+                accountingAccount.Initial_Balance = cy.EncryptStringToBytes_AES(updatedAccountingAccount.initialBalance.ToString(), _key, _iv);
+                accountingAccount.Accounting_Account_Status = cy.EncryptStringToBytes_AES(updatedAccountingAccount.accountingAccountStatus.ToString(), _key, _iv);
 
                 _context.Entry(accountingAccount).State = EntityState.Modified;
 

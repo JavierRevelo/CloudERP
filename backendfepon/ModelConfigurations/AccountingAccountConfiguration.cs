@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-/*namespace backendfepon.ModelConfigurations
-{
+namespace backendfepon.ModelConfigurations
+{/*
     public class AccountingAccountConfiguration : IEntityTypeConfiguration<AccountingAccount>
     {
         
@@ -27,6 +27,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
                 .HasForeignKey(t => t.Destination_Account);
   
 
-        }
-    }
-}*/
+        
+}
+    }*/
+}

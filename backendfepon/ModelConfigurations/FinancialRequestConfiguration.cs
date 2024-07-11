@@ -16,9 +16,7 @@ namespace backendfepon.ModelConfigurations
                 .WithMany(c => c.FinancialRequests)
                 .HasForeignKey(e => e.Request_Status_Id);
 
-            modelBuilder.HasOne(e => e.AdministrativeMember)
-               .WithMany(c => c.FinancialRequests)
-               .HasForeignKey(e => e.Administrative_Member_Id);
+          
 
         }
     }

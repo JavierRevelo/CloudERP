@@ -6,5 +6,6 @@
         public string State_Description { get; set; }
 
         public ICollection<FinancialRequest> FinancialRequests { get; set; }
+        public ICollection<Permission> Permissions { get; set; }
     }
 }

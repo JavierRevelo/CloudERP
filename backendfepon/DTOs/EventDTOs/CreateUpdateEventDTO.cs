@@ -2,15 +2,14 @@
 {
     public class CreateUpdateEventDTO
     {
-        public string State_Name { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public DateTime Start_Date { get; set; }
-        public DateTime End_Date { get; set; }
-        public decimal Budget { get; set; }
-        public string Status { get; set; }
-        public string Budget_Status { get; set; }
-        public string Event_Location { get; set; }
-        public string Hiring { get; set; }
+        public string title { get; set; }
+        public string status { get; set; }
+        public string description { get; set; }
+        public string startDate { get; set; }
+        public string endDate { get; set; }
+        public decimal budget { get; set; }
+        public string budgetStatus { get; set; }
+        public string location { get; set; }
+        public decimal income { get; set; }
     }
 }

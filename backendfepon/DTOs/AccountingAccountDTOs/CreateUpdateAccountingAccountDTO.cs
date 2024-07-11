@@ -2,11 +2,11 @@
 {
     public class CreateUpdateAccountingAccountDTO
     {
-        public int Account_Type_Id { get; set; }
-        public string Account_Name { get; set; }
-        public decimal Current_Value { get; set; }
-        public DateTime Initial_Balance_Date { get; set; }
-        public decimal Initial_Balance { get; set; }
-        public string Accounting_Account_Status { get; set; }
+        public string accountType { get; set; }
+        public string accountName { get; set; }
+        public decimal currentValue { get; set; }
+        public DateTime date { get; set; }
+        public decimal initialBalance { get; set; } 
+        public string accountingAccountStatus { get; set; }
     }
 }

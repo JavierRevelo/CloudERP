@@ -33,15 +33,15 @@ namespace backendfepon.Controllers
                     .Select(p => new EventDTO
                     {
                         id = p.Event_Id,
-                        stateid = p.State.Event_State_Name,
                         title = p.Title,
+                        status= p.State.Event_State_Name,
                         description = p.Description,
                         startDate = p.Start_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
                         endDate = p.End_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-                        budget = p.Budget,
-                        status = p.Status,
-                        budgetStatus = p.Budget_Status,
+                        budget = p.Financial_Request.Value,
+                        budgetStatus = p.Financial_Request.Financial_Request_State.State_Description,
                         location = p.Event_Location,
+                        income = p.Income.ToString()
                         //Hiring = p.Hiring
                     })
                     .ToListAsync();
@@ -66,16 +66,15 @@ namespace backendfepon.Controllers
                     .Select(p => new EventDTO
                     {
                         id = p.Event_Id,
-                        stateid = p.State.Event_State_Name,
                         title = p.Title,
+                        status = p.State.Event_State_Name,
                         description = p.Description,
                         startDate = p.Start_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
                         endDate = p.End_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-                        budget = p.Budget,
-                        status = p.Status,
-                        budgetStatus = p.Budget_Status,
+                        budget = p.Financial_Request.Value,
+                        budgetStatus = p.Financial_Request.Financial_Request_State.State_Description,
                         location = p.Event_Location,
-                        //Hiring = p.Hiring
+                        income = p.Income.ToString()
                     })
                     .FirstOrDefaultAsync();
 
@@ -91,21 +90,51 @@ namespace backendfepon.Controllers
                 return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible obtener el evento"));
             }
         }
-
+        /*
         // POST: api/Event
         [HttpPost]
         public async Task<ActionResult<EventDTO>> PostEvent(CreateUpdateEventDTO eventDTO)
         {
             try
             {
-                var state = await _context.States.FirstOrDefaultAsync(s => s.State_Name == eventDTO.State_Name);
+                var state = await _context.EventStates.FirstOrDefaultAsync(s => s.Event_State_Name == eventDTO.state);
                 if (state == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "Nombre del estado no válido."));
                 }
 
                 var newEvent = _mapper.Map<Event>(eventDTO);
-                newEvent.State_Id = state.State_Id;
+                newEvent.State_Id = state.Event_State_Id;
+
+
+                _context.Events.Add(newEvent);
+                await _context.SaveChangesAsync();
+
+                var createdEventDTO = _mapper.Map<EventDTO>(newEvent);
+
+                return CreatedAtAction(nameof(GetEvent), new { id = newEvent.Event_Id }, createdEventDTO);
+            }
+            catch
+            {
+                return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible crear el evento"));
+            }
+        }
+        */
+
+        [HttpPost]
+        public async Task<ActionResult<EventDTO>> PostEvent(CreateUpdateEventDTO eventDTO)
+        {
+            try
+            {
+                var state = await _context.EventStates.FirstOrDefaultAsync(s => s.Event_State_Name == eventDTO.status);
+                if (state == null)
+                {
+                    return BadRequest(GenerateErrorResponse(400, "Nombre del estado no válido."));
+                }
+
+
+                var newEvent = _mapper.Map<Event>(eventDTO);
+                newEvent.State_Id = state.Event_State_Id;
 
                 _context.Events.Add(newEvent);
                 await _context.SaveChangesAsync();
@@ -120,29 +149,28 @@ namespace backendfepon.Controllers
             }
         }
 
-        /*
         // PUT: api/Event/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEvent(int id, CreateUpdateEventDTO updatedEvent)
         {
             try
             {
-                var oldEvent = await _context.Events.FindAsync(id);
-                if (oldEvent == null)
+                var existingEvent = await _context.Events.FindAsync(id);
+                if (existingEvent == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "ID del evento no válido."));
                 }
 
-                var state = await _context.States.FirstOrDefaultAsync(s => s.State_Name == updatedEvent.State_Name);
+                var state = await _context.EventStates.FirstOrDefaultAsync(s => s.Event_State_Name == updatedEvent.status);
                 if (state == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "Nombre del estado no válido."));
                 }
 
-                _mapper.Map(updatedEvent, oldEvent);
-                oldEvent.State_Id = state.State_Id;
+                _mapper.Map(updatedEvent, existingEvent);
+                existingEvent.State_Id = state.Event_State_Id;
 
-                _context.Entry(oldEvent).State = EntityState.Modified;
+                _context.Entry(existingEvent).State = EntityState.Modified;
 
                 try
                 {
@@ -162,12 +190,13 @@ namespace backendfepon.Controllers
 
                 return NoContent();
             }
-            catch
+           
+            catch (DbUpdateException ex)
             {
-                return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible actualizar el evento"));
+                return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible actualizar el evento",ex));
             }
         }
-        */
+
         // DELETE: api/Event/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(int id)
@@ -190,7 +219,7 @@ namespace backendfepon.Controllers
                 return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible eliminar el evento"));
             }
         }
-
+        /*
         // Método para actualizar el estado del evento
         [HttpPut("{id}/state")]
         public async Task<IActionResult> UpdateEventStatus(int id, [FromBody] string newState)
@@ -221,7 +250,7 @@ namespace backendfepon.Controllers
                 return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible actualizar el estado del evento"));
             }
         }
-
+        */
 
         private bool EventExists(int id)
         {

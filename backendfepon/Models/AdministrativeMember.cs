@@ -31,6 +31,6 @@ namespace backendfepon.Models
         public Role Role { get; set; }
         public State State { get; set; }
 
-        public ICollection<FinancialRequest> FinancialRequests { get; set; }
+      // public ICollection<FinancialRequest> FinancialRequests { get; set; }
     }
 }
