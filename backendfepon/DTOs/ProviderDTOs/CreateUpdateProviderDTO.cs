@@ -2,8 +2,8 @@
 {
     public class CreateUpdateProviderDTO
     {
-        public string Name { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
+        public string name { get; set; }
+        public string phone { get; set; }
+        public string email { get; set; }
     }
 }

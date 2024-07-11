@@ -22,11 +22,11 @@ namespace backendfepon.ModelConfigurations.Profiles
 
             // Mapping from CreateUpdateProductDTO to Product
             CreateMap<CreateUpdateProductDTO, Product>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.Economic_Value, opt => opt.MapFrom(src => src.Economic_Value))
-                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
-                .ForMember(dest => dest.Label, opt => opt.MapFrom(src => src.Label))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.name))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.description))
+                .ForMember(dest => dest.Economic_Value, opt => opt.MapFrom(src => src.price))
+                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.quantity))
+                .ForMember(dest => dest.Label, opt => opt.MapFrom(src => src.label))
                 .ForMember(dest => dest.State, opt => opt.Ignore())
                 .ForMember(dest => dest.Category, opt => opt.Ignore())
                 .ForMember(dest => dest.Provider, opt => opt.Ignore());

@@ -26,7 +26,7 @@ namespace backendfepon.Controllers
                 var academicPeriods = await _context.AcademicPeriods
                     .Select(ap => new AcademicPeriodDTO
                     {
-                        Academic_Period_Name = ap.Academic_Period_Name
+                        academicPeriod = ap.Academic_Period_Name
                     })
                     .ToListAsync();
 
@@ -48,7 +48,7 @@ namespace backendfepon.Controllers
                     .Where(p => p.Academic_Period_Id == id)
                     .Select(p => new AcademicPeriodDTO
                     {
-                        Academic_Period_Name = p.Academic_Period_Name
+                        academicPeriod = p.Academic_Period_Name
                     })
                     .FirstOrDefaultAsync();
 

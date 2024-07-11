@@ -20,6 +20,11 @@ namespace backendfepon.ModelConfigurations
                .HasOne(p => p.InventoryMovementType)
                .WithMany(s => s.InventoryMovements)
                .HasForeignKey(p => p.Inventory_Movement_Id);
+
+            modelBuilder
+              .HasOne(p => p.State)
+              .WithMany(s => s.InventoryMovements)
+              .HasForeignKey(p => p.State_Id);
         }
     }
 }

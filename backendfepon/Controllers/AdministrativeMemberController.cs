@@ -38,6 +38,7 @@ namespace backendfepon.Controllers
                     .Select(p => new AdministrativeMemberDTO
                     {
                         id = p.Administrative_Member_Id,
+                        state_id = p.State_Id,
                         firstName = p.Name,
                         lastName = p.Last_Name,
                         birthDate = p.Birth_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
@@ -72,8 +73,8 @@ namespace backendfepon.Controllers
                         id = p.Administrative_Member_Id,
                         firstName = p.Name,
                         lastName = p.Last_Name,
-                        //birthDate = p.Birth_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-                        birthDate = p.Birth_Date.ToString(),
+                        state_id = p.State_Id,
+                        birthDate = p.Birth_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
                         cellphone = p.Phone,
                         faculty = p.Faculty.Faculty_Name,
                         career = p.Career.Career_Name,

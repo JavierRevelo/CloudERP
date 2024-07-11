@@ -3,8 +3,8 @@
     public class CreateUpdateContributionPlanDTO
     {
         public string Academic_Period_Name { get; set; }
-        public string Name { get; set; }
-        public string Benefits { get; set; }
-        public decimal Economic_Value { get; set; }
+        public string planName { get; set; }
+        public string benefits { get; set; }
+        public decimal price { get; set; }
     }
 }

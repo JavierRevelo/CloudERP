@@ -30,7 +30,8 @@ namespace backendfepon.ModelConfigurations.Profiles
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.Faculty, opt => opt.Ignore()) // Ignora Faculty si no está mapeado
                 .ForMember(dest => dest.Career, opt => opt.Ignore()) // Ignora Career si no está mapeado
-                .ForMember(dest => dest.Semester, opt => opt.Ignore()) // Ignora Semester si no está mapeado
+                .ForMember(dest => dest.Semester, opt => opt.Ignore())
+                .ForMember(dest => dest.State, opt => opt.Ignore()) // Ignora Semester si no está mapeado
                 .ForMember(dest => dest.Role_Id, opt => opt.Ignore()); // Ignora Role_Id
             /*
             // Mapping from CreateUpdateAdministrativeMemberDTO to AdministrativeMember
