@@ -2,6 +2,6 @@
 {
     public class FinantialRequestStateDTO
     {
-        public string State_Description { get; set; }
+        public string stateDescription { get; set; }
     }
 }

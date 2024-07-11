@@ -26,7 +26,7 @@ namespace backendfepon.Controllers
                 var states = await _context.FinancialRequestStates
                     .Select(s => new FinantialRequestStateDTO
                     {
-                        State_Description = s.State_Description
+                        stateDescription = s.State_Description
                     })
                     .ToListAsync();
 
@@ -48,7 +48,7 @@ namespace backendfepon.Controllers
                     .Where(s => s.Request_State_Id == id)
                     .Select(s => new FinantialRequestStateDTO
                     {
-                        State_Description = s.State_Description
+                        stateDescription = s.State_Description
                     })
                     .FirstOrDefaultAsync();
 

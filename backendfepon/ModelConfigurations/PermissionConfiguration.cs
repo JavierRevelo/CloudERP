@@ -12,9 +12,9 @@ namespace backendfepon.ModelConfigurations
             modelBuilder.HasKey(p => p.Permission_Id);
 
             // Relationships
-            modelBuilder.HasOne(e => e.Event)
-                .WithOne(c => c.Permission)
-                .HasForeignKey<Permission>(e => e.Event_Id);
+            modelBuilder.HasOne(e => e.FinancialRequestState)
+                .WithMany(c => c.Permissions)
+                .HasForeignKey(e => e.Status_Id);
 
         }
     }

@@ -10,11 +10,11 @@ namespace backendfepon.ModelConfigurations
         {
             modelBuilder.ToTable("EVENT_INCOME");
             modelBuilder.HasKey(p => p.Income_Id);
-
+            /*
             // Relationships
             modelBuilder.HasOne(e => e.Event)
                 .WithOne(c => c.EventIncome)
-                .HasForeignKey<EventIncome>(e => e.Event_Id);
+                .HasForeignKey<EventIncome>(e => e.Event_Id);*/
 
             modelBuilder.HasOne(e => e.Transaction)
                .WithOne(c => c.EventIncome)

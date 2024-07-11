@@ -15,10 +15,10 @@ namespace backendfepon.ModelConfigurations
             modelBuilder.HasOne(e => e.AdministrativeMember)
                 .WithOne(c => c.Responsible)
                 .HasForeignKey<Responsible>(e => e.Administrative_Member_Id);
-
+            /*
             modelBuilder.HasOne(e => e.Event)
                         .WithMany(c => c.Responsibles)
-                        .HasForeignKey(e => e.Event_Id);
+                        .HasForeignKey(e => e.Event_Id);*/
         }
     }
 }

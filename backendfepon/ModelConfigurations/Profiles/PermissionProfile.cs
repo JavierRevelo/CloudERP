@@ -9,14 +9,17 @@ namespace backendfepon.ModelConfigurations.Profiles
         {
             public PermissionProfile()
             {
-                // Mapping from Permission to PermissionDTO
-                CreateMap<Permission, PermissionDTO>()
-                    .ForMember(dest => dest.Event_Name, opt => opt.MapFrom(src => src.Event.Title));
+            // Mapeo de Permission a PermissionDTO
+            CreateMap<Permission, PermissionDTO>()
+                .ForMember(dest => dest.Permission_Id, opt => opt.MapFrom(src => src.Permission_Id))
+                .ForMember(dest => dest.Request, opt => opt.MapFrom(src => src.Request))
+                .ForMember(dest => dest.Request_Status, opt => opt.MapFrom(src => src.FinancialRequestState.State_Description));
 
-                // Mapping from CreateUpdatePermissionDTO to Permission
-                CreateMap<CreateUpdatePermissionDTO, Permission>()
-                    .ForMember(dest => dest.Event_Id, opt => opt.Ignore());
-            }
+            // Mapeo de CreateUpdatePermissionDTO a Permission
+            CreateMap<CreateUpdatePermissionDTO, Permission>()
+                .ForMember(dest => dest.Request, opt => opt.MapFrom(src => src.Request))
+                .ForMember(dest => dest.Status_Id, opt => opt.Ignore());
+        }
         }
 
 }

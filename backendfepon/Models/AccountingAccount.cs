@@ -11,8 +11,8 @@
         public string Accounting_Account_Status { get; set; }
 
         // Navigation properties
-        public ICollection<Transaction> OriginTransactions { get; set; }
-        public ICollection<Transaction> DestinationTransactions { get; set; }
-        public AccountType AccountType { get; set; }
+        //public ICollection<Transaction> OriginTransactions { get; set; }
+        //public ICollection<Transaction> DestinationTransactions { get; set; }
+        //public AccountType AccountType { get; set; }
     }
 }
