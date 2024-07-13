@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -65,7 +66,7 @@ namespace backendfepon.Controllers
                         accountType = cAccount.Account_Type_Name,
                         accountName = cy.DecryptStringFromBytes_Aes(cAccount.Account_Name, _key, _iv),
                         currentValue = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Current_Value, _key, _iv)),
-                        date = DateTime.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance_Date, _key, _iv)),
+                        date = DateTime.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance_Date, _key, _iv)).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
                         initialBalance = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance, _key, _iv)),
                         //accountingAccountStatus = cy.DecryptStringFromBytes_Aes(cAccount.Accounting_Account_Status, _key, _iv),
                     };
@@ -113,7 +114,7 @@ namespace backendfepon.Controllers
                     accountType = cAccount.Account_Type_Name,
                     accountName = cy.DecryptStringFromBytes_Aes(cAccount.Account_Name, _key, _iv),
                     currentValue = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Current_Value, _key, _iv)),
-                    date = DateTime.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance_Date, _key, _iv)),
+                    date = DateTime.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance_Date, _key, _iv)).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
                     initialBalance = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance, _key, _iv)),
                     //accountingAccountStatus = cy.DecryptStringFromBytes_Aes(cAccount.Accounting_Account_Status, _key, _iv),
                 };
@@ -145,7 +146,7 @@ namespace backendfepon.Controllers
                     Account_Type_Id=category.Account_Type_Id,
                     Current_Value= cy.EncryptStringToBytes_AES(accounntingAccountDTO.currentValue.ToString(), _key, _iv) ,
                     Initial_Balance= cy.EncryptStringToBytes_AES(accounntingAccountDTO.currentValue.ToString(), _key, _iv) ,
-                    Initial_Balance_Date= cy.EncryptStringToBytes_AES(accounntingAccountDTO.date.ToString(), _key, _iv) ,
+                    Initial_Balance_Date= cy.EncryptStringToBytes_AES(accounntingAccountDTO.date.ToString(), _key, _iv),
                 };
 
                 /*
