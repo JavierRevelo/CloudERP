@@ -12,7 +12,6 @@
 
         public byte[] Initial_Balance { get; set; }
 
-
         public byte[] Accounting_Account_Status { get; set; }
     
 

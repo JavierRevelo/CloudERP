@@ -16,6 +16,7 @@ namespace backendfepon.ModelConfigurations
             modelBuilder.HasOne(e => e.State)
                 .WithMany(c => c.Events)
                 .HasForeignKey(e => e.State_Id);
+
             // Relationships
             modelBuilder.HasOne(e => e.Financial_Request)
                 .WithOne(c => c.Events)
@@ -23,6 +24,10 @@ namespace backendfepon.ModelConfigurations
             modelBuilder.HasOne(e => e.Permission)
                 .WithMany(c => c.Events)
                 .HasForeignKey(e => e.Permission_Id);
+
+            modelBuilder.HasOne(e => e.State_State)
+                .WithMany(c => c.Events)
+                .HasForeignKey(e => e.Event_Status_Id);
 
         }
     }

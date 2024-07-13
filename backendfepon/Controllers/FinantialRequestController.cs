@@ -5,9 +5,10 @@ using backendfepon.DTOs.PermissionDTOs;
 using backendfepon.DTOs.ProductDTOs;
 using backendfepon.DTOs.TransactionDTOs;
 using backendfepon.Models;
+using backendfepon.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
+//using Microsoft.VisualBasic;
 
 namespace backendfepon.Controllers
 {
@@ -34,7 +35,7 @@ namespace backendfepon.Controllers
             var finantialRequests = await _context.FinancialRequests
             .Include(p => p.Events)
             .Include(p => p.Financial_Request_State)
-            //.Where(p => p.Events.Financial_Request_Id == Constants.DEFAULT_STATE)
+            .Where(p => p.State_Id == Constants.DEFAULT_STATE)
            .Select(p => new FinantialRequestDTO
            {
                id = p.Request_Id,
