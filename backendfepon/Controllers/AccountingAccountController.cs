@@ -90,7 +90,7 @@ namespace backendfepon.Controllers
                 CypherAES cy = new CypherAES();
                 var cAccount = await _context.CAccountinngAccounts
                     .Include(p => p.AccountType)
-                    .Where(p => p.Account_Type_Id == id)
+                    .Where(p => p.Account_Id == id)
                     .Select(p => new CAccountingAccountDTOs
                     {
                         Account_Id = p.Account_Id,
