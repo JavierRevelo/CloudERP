@@ -166,7 +166,7 @@ namespace backendfepon.Controllers
                     accountType = accountingA.AccountType.Account_Type_Name,
                     currentValue = Decimal.Parse( cy.DecryptStringFromBytes_Aes(accountingA.Current_Value, _key, _iv)),
                     date = DateTime.Parse( cy.DecryptStringFromBytes_Aes(accountingA.Initial_Balance_Date, _key, _iv)).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    initialBalance= Decimal.Parse(cy.DecryptStringFromBytes_Aes(accountingA.Initial_Balance_Date, _key, _iv))
+                    initialBalance= Decimal.Parse(cy.DecryptStringFromBytes_Aes(accountingA.Initial_Balance, _key, _iv))
                 };
                 return CreatedAtAction(nameof(GetAccountingAccount), new { id = createdAccountingDTO.id}, createdAccountingDTO);
             }
