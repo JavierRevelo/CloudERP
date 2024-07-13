@@ -11,6 +11,7 @@ namespace backendfepon.ModelConfigurations.Profiles
         {
             // Mapping from AdministrativeMember to AdministrativeMemberDTO
              CreateMap<AdministrativeMember, AdministrativeMemberDTO>()
+                .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Administrative_Member_Id))
                  .ForMember(dest => dest.firstName, opt => opt.MapFrom(src => src.Name))
                  .ForMember(dest => dest.lastName, opt => opt.MapFrom(src => src.Last_Name))
                  .ForMember(dest => dest.birthDate, opt => opt.MapFrom(src => src.Birth_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)))

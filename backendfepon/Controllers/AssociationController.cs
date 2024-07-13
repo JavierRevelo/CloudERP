@@ -192,6 +192,7 @@ namespace backendfepon.Controllers
                 return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible actualizar el estado"));
             }
         }
+        
         private bool AssociationExists(int id)
         {
             return _context.Associations.Any(e => e.Association_Id == id);
