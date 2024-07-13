@@ -120,22 +120,32 @@ namespace backendfepon.Controllers
             }
         }
         */
-
+        /*
         [HttpPost]
         public async Task<ActionResult<EventDTO>> PostEvent(CreateUpdateEventDTO eventDTO)
         {
             try
             {
-                var state = await _context.EventStates.FirstOrDefaultAsync(s => s.Event_State_Name == eventDTO.status);
-                if (state == null)
+                var eventState = await _context.EventStates.FirstOrDefaultAsync(s => s.Event_State_Name == eventDTO.status);
+                if (eventState == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "Nombre del estado no válido."));
                 }
+                var bugetStatus = await _context.FinancialRequestStates.FirstOrDefaultAsync(s => s.State_Description == eventDTO.budgetStatus);
+                if (eventState == null)
+                {
+                    return BadRequest(GenerateErrorResponse(400, "Nombre del budget estado no válido."));
+                }
 
-
+                var newFinancialRequest = new FinancialRequest {
+                    Request_Status_Id = bugetStatus.Request_State_Id,
+                    Reason = "",
+                    Value= eventDTO.budget
+                };
                 var newEvent = _mapper.Map<Event>(eventDTO);
-                newEvent.State_Id = state.Event_State_Id;
+                newEvent.State_Id = eventState.Event_State_Id;
 
+                _context.FinancialRequests.Add(newFinancialRequest);
                 _context.Events.Add(newEvent);
                 await _context.SaveChangesAsync();
 
@@ -147,7 +157,56 @@ namespace backendfepon.Controllers
             {
                 return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible crear el evento"));
             }
+        }*/
+
+        [HttpPost]
+        public async Task<ActionResult<EventDTO>> PostEvent(CreateUpdateEventDTO eventDTO)
+        {
+            try
+            {
+                var eventState = await _context.EventStates.FirstOrDefaultAsync(s => s.Event_State_Name == eventDTO.status);
+                if (eventState == null)
+                {
+                    return BadRequest(GenerateErrorResponse(400, "Nombre del estado no válido."));
+                }
+
+                var budgetStatus = await _context.FinancialRequestStates.FirstOrDefaultAsync(s => s.State_Description == eventDTO.budgetStatus);
+                if (budgetStatus == null)
+                {
+                    return BadRequest(GenerateErrorResponse(400, "Nombre del estado de presupuesto no válido."));
+                }
+
+                var newFinancialRequest = new FinancialRequest
+                {
+                    Request_Status_Id = budgetStatus.Request_State_Id,
+                    Reason = "",
+                    Value = eventDTO.budget
+                };
+
+                // Agregar el nuevo FinancialRequest a la base de datos y guardar cambios para obtener el Request_Id
+                _context.FinancialRequests.Add(newFinancialRequest);
+                await _context.SaveChangesAsync();
+
+                // Asignar el Request_Id del FinancialRequest creado al evento
+                var newEvent = _mapper.Map<Event>(eventDTO);
+                newEvent.State_Id = eventState.Event_State_Id;
+                newEvent.Financial_Request_Id = newFinancialRequest.Request_Id;
+                newEvent.Permission_Id = 1;
+
+                // Agregar el nuevo evento a la base de datos
+                _context.Events.Add(newEvent);
+                await _context.SaveChangesAsync();
+
+                var createdEventDTO = _mapper.Map<EventDTO>(newEvent);
+
+                return CreatedAtAction(nameof(GetEvent), new { id = newEvent.Event_Id }, createdEventDTO);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible crear el evento", ex));
+            }
         }
+
 
         // PUT: api/Event/5
         [HttpPut("{id}")]
@@ -167,9 +226,21 @@ namespace backendfepon.Controllers
                     return BadRequest(GenerateErrorResponse(400, "Nombre del estado no válido."));
                 }
 
+                var budgetState = await _context.FinancialRequestStates.FirstOrDefaultAsync(s => s.State_Description == updatedEvent.budgetStatus);
+                if (state == null)
+                {
+                    return BadRequest(GenerateErrorResponse(400, "Nombre del estado no válido."));
+                }
+
+
+                var existingFinancialRequest = await _context.FinancialRequests.FirstOrDefaultAsync(s => s.Request_Id == existingEvent.Financial_Request_Id);
+                existingFinancialRequest.Request_Status_Id= budgetState.Request_State_Id;
+                existingFinancialRequest.Value=updatedEvent.budget;   
+
                 _mapper.Map(updatedEvent, existingEvent);
                 existingEvent.State_Id = state.Event_State_Id;
 
+                _context.Entry(existingFinancialRequest).State = EntityState.Modified;
                 _context.Entry(existingEvent).State = EntityState.Modified;
 
                 try

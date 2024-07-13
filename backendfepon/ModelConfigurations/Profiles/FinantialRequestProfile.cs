@@ -11,7 +11,7 @@ namespace backendfepon.ModelConfigurations.Profiles
             // Mapping from FinancialRequest to FinancialRequestDTO
             CreateMap<FinancialRequest, FinantialRequestDTO>()
                 //.ForMember(dest => dest.AdministrativeMember_Name, opt => opt.MapFrom(src => src.AdministrativeMember.Name + ' ' + src.AdministrativeMember.Last_Name ))
-                .ForMember(dest => dest.Request_Status_Name, opt => opt.MapFrom(src => src.Financial_Request_State.State_Description));
+                .ForMember(dest => dest.requestStatusName, opt => opt.MapFrom(src => src.Financial_Request_State.State_Description));
 
 
             // Mapping from CreateUpdateFinancialRequestDTO to FinancialRequest

@@ -44,6 +44,7 @@ namespace backendfepon.Controllers
                 var dAccounts = new List<AccountingAccountDTO>();
                 var CaccountingAccounts = await _context.CAccountinngAccounts
                     .Include(p => p.AccountType)
+                    
                     .Select(p => new CAccountingAccountDTOs
                     {
                         Account_Id = p.Account_Id,
@@ -66,7 +67,7 @@ namespace backendfepon.Controllers
                         currentValue = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Current_Value, _key, _iv)),
                         date = DateTime.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance_Date, _key, _iv)),
                         initialBalance = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance, _key, _iv)),
-                        accountingAccountStatus = cy.DecryptStringFromBytes_Aes(cAccount.Accounting_Account_Status, _key, _iv),
+                        //accountingAccountStatus = cy.DecryptStringFromBytes_Aes(cAccount.Accounting_Account_Status, _key, _iv),
                     };
                     dAccounts.Add(account);
                 }
@@ -114,7 +115,7 @@ namespace backendfepon.Controllers
                     currentValue = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Current_Value, _key, _iv)),
                     date = DateTime.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance_Date, _key, _iv)),
                     initialBalance = Decimal.Parse(cy.DecryptStringFromBytes_Aes(cAccount.Initial_Balance, _key, _iv)),
-                    accountingAccountStatus = cy.DecryptStringFromBytes_Aes(cAccount.Accounting_Account_Status, _key, _iv),
+                    //accountingAccountStatus = cy.DecryptStringFromBytes_Aes(cAccount.Accounting_Account_Status, _key, _iv),
                 };
 
                 return Ok(dAccount);
@@ -139,11 +140,11 @@ namespace backendfepon.Controllers
                 }
 
                 var accountingA = new CAccountingAccount { 
-                    Accounting_Account_Status= cy.EncryptStringToBytes_AES(category.Account_Type_Name,_key,_iv),
+                    Accounting_Account_Status= cy.EncryptStringToBytes_AES("ACTIVO",_key,_iv),
                     Account_Name= cy.EncryptStringToBytes_AES(accounntingAccountDTO.accountName, _key, _iv),
                     Account_Type_Id=category.Account_Type_Id,
                     Current_Value= cy.EncryptStringToBytes_AES(accounntingAccountDTO.currentValue.ToString(), _key, _iv) ,
-                    Initial_Balance= cy.EncryptStringToBytes_AES(accounntingAccountDTO.initialBalance.ToString(), _key, _iv) ,
+                    Initial_Balance= cy.EncryptStringToBytes_AES(accounntingAccountDTO.currentValue.ToString(), _key, _iv) ,
                     Initial_Balance_Date= cy.EncryptStringToBytes_AES(accounntingAccountDTO.date.ToString(), _key, _iv) ,
                 };
 
@@ -189,7 +190,7 @@ namespace backendfepon.Controllers
                 accountingAccount.Current_Value = cy.EncryptStringToBytes_AES(updatedAccountingAccount.currentValue.ToString(), _key, _iv);
                 accountingAccount.Initial_Balance_Date = cy.EncryptStringToBytes_AES(updatedAccountingAccount.date.ToString(), _key, _iv);
                 accountingAccount.Initial_Balance = cy.EncryptStringToBytes_AES(updatedAccountingAccount.initialBalance.ToString(), _key, _iv);
-                accountingAccount.Accounting_Account_Status = cy.EncryptStringToBytes_AES(updatedAccountingAccount.accountingAccountStatus.ToString(), _key, _iv);
+                accountingAccount.Accounting_Account_Status = cy.EncryptStringToBytes_AES("INACTIVO".ToString(), _key, _iv);
 
                 _context.Entry(accountingAccount).State = EntityState.Modified;
 

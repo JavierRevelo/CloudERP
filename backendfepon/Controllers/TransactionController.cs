@@ -96,13 +96,13 @@ namespace backendfepon.Controllers
                 // Obtén todas las cuentas y desencripta en memoria
                 var allAccounts = await _context.CAccountinngAccounts.ToListAsync();
 
-                var originAccount = allAccounts.FirstOrDefault(a => cy.DecryptStringFromBytes_Aes(a.Account_Name, _key, _iv) == transactionDTO.Origin_Account);
+                var originAccount = allAccounts.FirstOrDefault(a => cy.DecryptStringFromBytes_Aes(a.Account_Name, _key, _iv) == transactionDTO.originAccount);
                 if (originAccount == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "Nombre de cuenta de origen no válido."));
                 }
 
-                var destinationAccount = allAccounts.FirstOrDefault(a => cy.DecryptStringFromBytes_Aes(a.Account_Name, _key, _iv) == transactionDTO.Destination_Account);
+                var destinationAccount = allAccounts.FirstOrDefault(a => cy.DecryptStringFromBytes_Aes(a.Account_Name, _key, _iv) == transactionDTO.destinationAccount);
                 if (destinationAccount == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "Nombre de cuenta de destino no válido."));
@@ -114,10 +114,21 @@ namespace backendfepon.Controllers
                     return BadRequest(GenerateErrorResponse(400, "Tipo de transacción no válido."));
                 }
 
+
+                decimal originAccountValue =Decimal.Parse(cy.DecryptStringFromBytes_Aes(originAccount.Current_Value, _key, _iv))-transactionDTO.value;
+                decimal destinationAccountValue = Decimal.Parse(cy.DecryptStringFromBytes_Aes(destinationAccount.Current_Value, _key, _iv))+ transactionDTO.value;
+
+                originAccount.Current_Value = cy.EncryptStringToBytes_AES(originAccountValue.ToString(), _key, _iv);
+                destinationAccount.Current_Value= cy.EncryptStringToBytes_AES(destinationAccountValue.ToString(), _key, _iv);
+
+
                 var transaction = _mapper.Map<Transaction>(transactionDTO);
                 transaction.Origin_Account = originAccount.Account_Id;
                 transaction.Destination_Account = destinationAccount.Account_Id;
                 transaction.Transaction_Type_Id = transactionType.Transaction_Type_Id;
+
+                _context.Entry(originAccount).State = EntityState.Modified;
+                _context.Entry(destinationAccount).State = EntityState.Modified;
 
                 _context.Transactions.Add(transaction);
                 await _context.SaveChangesAsync();
