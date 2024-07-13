@@ -102,13 +102,13 @@ namespace backendfepon.Controllers
             try
             {
 
-                var category = await _context.Categories.FirstOrDefaultAsync(c => c.Description == productDTO.Category_Name);
+                var category = await _context.Categories.FirstOrDefaultAsync(c => c.Description == productDTO.category);
                 if (category == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "Nombre de categoría no válido."));
                 }
 
-                var provider = await _context.Providers.FirstOrDefaultAsync(p => p.Name == productDTO.Provider_Name);
+                var provider = await _context.Providers.FirstOrDefaultAsync(p => p.Name == productDTO.provider);
                 if (provider == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "Nombre de proveedor no válido."));
@@ -144,13 +144,13 @@ namespace backendfepon.Controllers
                 }
 
 
-                var category = await _context.Categories.FirstOrDefaultAsync(c => c.Description == updatedProductDTO.Category_Name);
+                var category = await _context.Categories.FirstOrDefaultAsync(c => c.Description == updatedProductDTO.category);
                 if (category == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "Nombre de categoría no válido."));
                 }
 
-                var provider = await _context.Providers.FirstOrDefaultAsync(p => p.Name == updatedProductDTO.Provider_Name);
+                var provider = await _context.Providers.FirstOrDefaultAsync(p => p.Name == updatedProductDTO.provider);
                 if (provider == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "Nombre de proveedor no válido."));

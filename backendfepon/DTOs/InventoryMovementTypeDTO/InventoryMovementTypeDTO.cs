@@ -3,7 +3,7 @@
     public class InventoryMovementTypeDTO
     {
 
-        public string Movement_Type_Name { get; set; }
+        public string movement_Type_Name { get; set; }
 
     }
 }

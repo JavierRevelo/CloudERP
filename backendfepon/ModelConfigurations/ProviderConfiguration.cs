@@ -10,7 +10,10 @@ namespace backendfepon.ModelConfigurations
         {
             modelBuilder.ToTable("PROVIDER");
             modelBuilder.HasKey(p => p.Provider_Id);
-
+            modelBuilder
+              .HasOne(p => p.State)
+              .WithMany(s => s.Providers)
+              .HasForeignKey(p => p.State_Id);
 
         }
     }

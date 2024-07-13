@@ -22,6 +22,7 @@ namespace backendfepon.ModelConfigurations.Profiles
                 .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.phone))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.email))
                 .ForMember(dest => dest.EventExpenses, opt => opt.Ignore())
+                .ForMember(dest => dest.State, opt => opt.Ignore())
                 .ForMember(dest => dest.Products, opt => opt.Ignore());
         }
     }

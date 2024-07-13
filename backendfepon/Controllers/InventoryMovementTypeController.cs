@@ -28,7 +28,7 @@ namespace backendfepon.Controllers
                 var inventoryMovementTypes = await _context.InventoryMovementTypes
                     .Select(p => new InventoryMovementTypeDTO
                     {
-                        Movement_Type_Name = p.Movement_Type_Name,
+                        movement_Type_Name = p.Movement_Type_Name,
                     })
                     .ToListAsync();
 
@@ -50,7 +50,7 @@ namespace backendfepon.Controllers
                     .Where(p => p.Movement_Type_Id == id)
                     .Select(p => new InventoryMovementTypeDTO
                     {
-                        Movement_Type_Name = p.Movement_Type_Name,
+                        movement_Type_Name = p.Movement_Type_Name,
                     })
                     .FirstOrDefaultAsync();
 
@@ -83,7 +83,7 @@ namespace backendfepon.Controllers
 
                 var createdInventoryMovementTypeDTO = new InventoryMovementTypeDTO
                 {
-                    Movement_Type_Name = inventoryMovementType.Movement_Type_Name
+                    movement_Type_Name = inventoryMovementType.Movement_Type_Name
                 };
 
                 return CreatedAtAction(nameof(GetInventoryMovementType), new { id = inventoryMovementType.Movement_Type_Id }, createdInventoryMovementTypeDTO);

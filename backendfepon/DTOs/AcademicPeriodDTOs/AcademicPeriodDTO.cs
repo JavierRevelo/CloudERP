@@ -2,7 +2,7 @@
 {
     public class AcademicPeriodDTO
     {
-        public string Academic_Period_Name { get; set; }
+        public string academicPeriod { get; set; }
 
     }
 }
