@@ -89,19 +89,20 @@ namespace backendfepon.Controllers
         [HttpPost]
         public async Task<ActionResult<TransactionDTO>> PostTransaction(CreateUpdateTransactionDTO transactionDTO)
         {
+
             CypherAES cy = new CypherAES();
 
             try
             {
                 // Obtén todas las cuentas y desencripta en memoria
                 var allAccounts = await _context.CAccountinngAccounts.ToListAsync();
-
+                
                 var originAccount = allAccounts.FirstOrDefault(a => cy.DecryptStringFromBytes_Aes(a.Account_Name, _key, _iv) == transactionDTO.originAccount);
                 if (originAccount == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "Nombre de cuenta de origen no válido."));
                 }
-
+                
                 var destinationAccount = allAccounts.FirstOrDefault(a => cy.DecryptStringFromBytes_Aes(a.Account_Name, _key, _iv) == transactionDTO.destinationAccount);
                 if (destinationAccount == null)
                 {
@@ -115,22 +116,24 @@ namespace backendfepon.Controllers
                 }
 
 
-                decimal originAccountValue =Decimal.Parse(cy.DecryptStringFromBytes_Aes(originAccount.Current_Value, _key, _iv))-transactionDTO.value;
-                decimal destinationAccountValue = Decimal.Parse(cy.DecryptStringFromBytes_Aes(destinationAccount.Current_Value, _key, _iv))+ transactionDTO.value;
+               decimal originAccountValue =Decimal.Parse(cy.DecryptStringFromBytes_Aes(originAccount.Current_Value, _key, _iv)) - transactionDTO.value;
+               decimal destinationAccountValue = Decimal.Parse(cy.DecryptStringFromBytes_Aes(destinationAccount.Current_Value, _key, _iv)) + transactionDTO.value;
 
-                originAccount.Current_Value = cy.EncryptStringToBytes_AES(originAccountValue.ToString(), _key, _iv);
-                destinationAccount.Current_Value= cy.EncryptStringToBytes_AES(destinationAccountValue.ToString(), _key, _iv);
+               originAccount.Current_Value = cy.EncryptStringToBytes_AES(originAccountValue.ToString(), _key, _iv);
+               destinationAccount.Current_Value= cy.EncryptStringToBytes_AES(destinationAccountValue.ToString(), _key, _iv);
 
 
                 var transaction = _mapper.Map<Transaction>(transactionDTO);
                 transaction.Origin_Account = originAccount.Account_Id;
+                transaction.Origin_Account = 1;
                 transaction.Destination_Account = destinationAccount.Account_Id;
                 transaction.Transaction_Type_Id = transactionType.Transaction_Type_Id;
 
-                _context.Entry(originAccount).State = EntityState.Modified;
-                _context.Entry(destinationAccount).State = EntityState.Modified;
+                
 
                 _context.Transactions.Add(transaction);
+                _context.Entry(originAccount).State = EntityState.Modified;
+                _context.Entry(destinationAccount).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
                 var createdTransactionDTO = _mapper.Map<TransactionDTO>(transaction);
@@ -149,7 +152,7 @@ namespace backendfepon.Controllers
             catch (Exception ex)
             {
                 // Handle all other exceptions
-                return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible crear la Asociación", ex));
+                return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible crear la Asociación3", ex));
             }
         }
     }

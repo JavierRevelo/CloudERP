@@ -101,6 +101,11 @@ namespace backendfepon.Controllers
         {
             try
             {
+                var productExist = await _context.Products.FirstOrDefaultAsync(c => c.Name == productDTO.name);
+                if (productExist.Name == productDTO.name)
+                {
+                    return BadRequest(GenerateErrorResponse(400, "El producto ya existe."));
+                }
 
                 var category = await _context.Categories.FirstOrDefaultAsync(c => c.Description == productDTO.category);
                 if (category == null)

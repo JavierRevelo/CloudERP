@@ -109,6 +109,28 @@ namespace backendfepon.Controllers
                     return BadRequest(GenerateErrorResponse(400, "Nombre del tipo de movimiento de inventario no válido."));
                 }
 
+                if (ProductExist(product.Product_Id))
+                {
+                    if (inventoryMovementType.Movement_Type_Id==1)
+                    {
+                        product.Quantity += inventoryMovementDTO.quantity;
+                    }
+                    else
+                    {
+                        product.Quantity -= inventoryMovementDTO.quantity;
+                    }
+
+                    _context.Entry(product).State = EntityState.Modified;
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error de concurrencia."));
+                    }
+                }
+
                 var inventoryMovement = _mapper.Map<InventoryMovement>(inventoryMovementDTO);
                 inventoryMovement.Product_Id = product.Product_Id;
                 inventoryMovement.Inventory_Movement_Id = inventoryMovementType.Movement_Type_Id;
@@ -120,6 +142,8 @@ namespace backendfepon.Controllers
                 var createdInventoryMovementDTO = _mapper.Map<InventoryMovementDTO>(inventoryMovement);
 
                 return CreatedAtAction(nameof(GetInventoryMovement), new { id = inventoryMovement.Movement_Id }, createdInventoryMovementDTO);
+
+
             }
             catch (DbUpdateException ex)
             {
@@ -268,6 +292,11 @@ namespace backendfepon.Controllers
         private bool InventoryMovementExists(int id)
         {
             return _context.InventoryMovements.Any(e => e.Movement_Id == id);
+        }
+
+        private bool ProductExist(int id)
+        {
+            return _context.Products.Any(e => e.Product_Id == id);
         }
     }
 }
