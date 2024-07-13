@@ -139,12 +139,12 @@ namespace backendfepon.Controllers
             catch (DbUpdateException ex)
             {
                 // Handle database update exceptions
-                return StatusCode(500, GenerateErrorResponse(500, "Error al actualizar la base de datos, no es posible crear la Asociación", ex));
+                return StatusCode(500, GenerateErrorResponse(500, "Error al actualizar la base de datos, no es posible crear la Transaccion", ex));
             }
             catch (AutoMapperMappingException ex)
             {
                 // Handle AutoMapper exceptions
-                return StatusCode(500, GenerateErrorResponse(500, "Error en la configuración del mapeo, no es posible crear la Asociación", ex));
+                return StatusCode(500, GenerateErrorResponse(500, "Error en la configuración del mapeo,", ex));
             }
             catch (Exception ex)
             {

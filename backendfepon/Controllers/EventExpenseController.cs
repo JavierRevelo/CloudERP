@@ -25,7 +25,6 @@ namespace backendfepon.Controllers
             {
                 var eventExpenses = await _context.EventExpenses
                     .Include(p => p.Transaction)
-                    .Include(p => p.Providers)
                     .Include(p => p.Responsible)
                     .Include(p => p.Event)
                     .Select(p => new EventExpenseDTO
@@ -34,7 +33,6 @@ namespace backendfepon.Controllers
                         Transaction_Id = p.Transaction_Id,
                         Event_Name = p.Event.Title,
                         Responsible_Name = p.Responsible.AdministrativeMember.Name,
-                        Provider_Names = p.Providers.Select(provider => provider.Name).ToList()
                     })
                     .ToListAsync();
 
@@ -54,7 +52,6 @@ namespace backendfepon.Controllers
             {
                 var eventExpense = await _context.EventExpenses
                     .Include(p => p.Transaction)
-                    .Include(p => p.Providers)
                     .Include(p => p.Responsible)
                     .Include(p => p.Event)
                     .Where(p => p.Expense_Id == id)
@@ -64,7 +61,6 @@ namespace backendfepon.Controllers
                         Transaction_Id = p.Transaction_Id,
                         Event_Name = p.Event.Title,
                         Responsible_Name = p.Responsible.AdministrativeMember.Name,
-                        Provider_Names = p.Providers.Select(provider => provider.Name).ToList()
                     })
                     .FirstOrDefaultAsync();
 

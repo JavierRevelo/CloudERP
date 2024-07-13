@@ -96,13 +96,24 @@ namespace backendfepon.Controllers
                 _context.Providers.Add(provider);
                 await _context.SaveChangesAsync();
 
-                var createdProviderDTO = _mapper.Map<ProductDTO>(provider);
+                var createdProviderDTO = _mapper.Map<ProviderDTO>(provider);
 
                 return CreatedAtAction(nameof(GetProvider), new { id = provider.Provider_Id }, createdProviderDTO);
             }
-            catch
+            catch (DbUpdateException ex)
             {
-                return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible crear el servidor"));
+                // Handle database update exceptions
+                return StatusCode(500, GenerateErrorResponse(500, "Error al actualizar la base de datos, no es posible crear el proveedor", ex));
+            }
+            catch (AutoMapperMappingException ex)
+            {
+                // Handle AutoMapper exceptions
+                return StatusCode(500, GenerateErrorResponse(500, "Error en la configuración del mapeo, no es posible crear el proveedor", ex));
+            }
+            catch (Exception ex)
+            {
+                // Handle all other exceptions
+                return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible crear el proveedor", ex));
             }
         }
 

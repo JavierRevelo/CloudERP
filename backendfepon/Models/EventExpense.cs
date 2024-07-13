@@ -7,7 +7,6 @@
         public int Event_Id { get; set; }
         public int Responsible_Id { get; set; }
 
-        public ICollection<Provider> Providers { get; set; }
 
         public Responsible Responsible { get; set; }
 
