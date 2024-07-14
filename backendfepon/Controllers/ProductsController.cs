@@ -101,8 +101,8 @@ namespace backendfepon.Controllers
         {
             try
             {
-                var productExist = await _context.Products.FirstOrDefaultAsync(c => c.Name == productDTO.name);
-                if (productExist.Name == productDTO.name)
+                //var productExist = await _context.Products.FirstOrDefaultAsync(c => c.Name == productDTO.name);
+                if (ProductExistsName(productDTO.name))
                 {
                     return BadRequest(GenerateErrorResponse(400, "El producto ya existe."));
                 }
@@ -256,6 +256,11 @@ namespace backendfepon.Controllers
         private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.Product_Id == id);
+        }
+
+        private bool ProductExistsName(string name)
+        {
+            return _context.Products.Any(e => e.Name == name);
         }
     }
 }

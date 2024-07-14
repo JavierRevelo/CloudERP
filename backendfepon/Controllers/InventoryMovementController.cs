@@ -109,16 +109,24 @@ namespace backendfepon.Controllers
                     return BadRequest(GenerateErrorResponse(400, "Nombre del tipo de movimiento de inventario no válido."));
                 }
 
+
                 if (ProductExist(product.Product_Id))
                 {
+                    
+
                     if (inventoryMovementType.Movement_Type_Id==1)
                     {
                         product.Quantity += inventoryMovementDTO.quantity;
                     }
-                    else
+                    else if (inventoryMovementType.Movement_Type_Id > 1 && product.Quantity>=0  && (product.Quantity - inventoryMovementDTO.quantity >= 0))
                     {
                         product.Quantity -= inventoryMovementDTO.quantity;
                     }
+                    else
+                    {
+                        return StatusCode(500, GenerateErrorResponse(400, "el numero del producto es 0 no se puede reducir mas."));
+                    }
+                    
 
                     _context.Entry(product).State = EntityState.Modified;
                     try
