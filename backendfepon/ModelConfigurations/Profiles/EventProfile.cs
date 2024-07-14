@@ -31,7 +31,8 @@ namespace backendfepon.ModelConfigurations.Profiles
            .ForMember(dest => dest.Income, opt => opt.MapFrom(src => src.income))
            .ForMember(dest => dest.State, opt => opt.Ignore())
            .ForMember(dest => dest.Financial_Request, opt => opt.Ignore())
-           .ForMember(dest => dest.Permission, opt => opt.Ignore());
+           .ForMember(dest => dest.Permission, opt => opt.Ignore())
+           .ForMember(dest => dest.State_State, opt => opt.Ignore());
         }
     }
 }

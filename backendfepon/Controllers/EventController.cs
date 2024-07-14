@@ -117,7 +117,8 @@ namespace backendfepon.Controllers
                 {
                     Request_Status_Id = budgetStatus.Request_State_Id,
                     Reason = "",
-                    Value = eventDTO.budget
+                    Value = eventDTO.budget,
+                    State_Id=Constants.DEFAULT_STATE  
                 };
 
                 // Agregar el nuevo FinancialRequest a la base de datos y guardar cambios para obtener el Request_Id
@@ -129,6 +130,7 @@ namespace backendfepon.Controllers
                 newEvent.State_Id = eventState.Event_State_Id;
                 newEvent.Financial_Request_Id = newFinancialRequest.Request_Id;
                 newEvent.Permission_Id = 1;
+                newEvent.Event_Status_Id = Constants.DEFAULT_STATE;
 
                 // Agregar el nuevo evento a la base de datos
                 _context.Events.Add(newEvent);
