@@ -137,6 +137,8 @@ namespace backendfepon.Controllers
                 await _context.SaveChangesAsync();
 
                 var createdTransactionDTO = _mapper.Map<TransactionDTO>(transaction);
+                createdTransactionDTO.originAccount = cy.DecryptStringFromBytes_Aes(originAccount.Account_Name, _key, _iv);
+                createdTransactionDTO.destinationAccount = cy.DecryptStringFromBytes_Aes(destinationAccount.Account_Name, _key, _iv);
                 return CreatedAtAction(nameof(GetTransaction), new { id = transaction.Transaction_Id }, createdTransactionDTO);
             }
             catch (DbUpdateException ex)

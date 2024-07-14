@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using backendfepon.Cypher;
 using backendfepon.DTOs.TransactionDTOs;
 using backendfepon.Models;
 using System.Globalization;
@@ -22,6 +23,7 @@ namespace backendfepon.ModelConfigurations.Profiles
                 .ForMember(dest => dest.transactionType, opt => opt.MapFrom(src => src.TransactionType.Transaction_Type_Name)) // Assuming TransactionType has a name property
                 .ForMember(dest => dest.date, opt => opt.MapFrom(src => src.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture))); // Adjust date format as needed*/
 
+            CypherAES cy = new CypherAES();
             CreateMap<CreateUpdateTransactionDTO, Transaction>()
             .ForMember(dest => dest.Origin_Account, opt => opt.Ignore())
             .ForMember(dest => dest.Destination_Account, opt => opt.Ignore())
