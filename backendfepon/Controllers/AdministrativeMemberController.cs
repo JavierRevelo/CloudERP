@@ -96,43 +96,7 @@ namespace backendfepon.Controllers
                 return StatusCode(500, GenerateErrorResponse(500, "\"Ocurrió un error interno del servidor, no es posible obtenet el miembro administrativo"));
             }
         }
-        /*
-        // POST: api/AdministrativeMembers
-        [HttpPost]
-        public async Task<ActionResult<AdministrativeMemberDTO>> PostAdministrativeMember(CreateUpdateAdministrativeMemberDTO administrativeMemberDTO)
-        {
-            try
-            {
-                var student = await _context.Students.FirstOrDefaultAsync(s => s.Email == administrativeMemberDTO.Student_Email);
-                if (student == null)
-                {
-                    return BadRequest(GenerateErrorResponse(400, "Correo electrónico del estudiante no válido."));
-                }
-
-                var role = await _context.Roles.FirstOrDefaultAsync(s => s.Role_Name == administrativeMemberDTO.Member_Role);
-                if (role == null)
-                {
-                    return BadRequest(GenerateErrorResponse(400, "Rol no válido."));
-                }
-
-                var administrativeMember = _mapper.Map<AdministrativeMember>(administrativeMemberDTO);
-                //administrativeMember.Student_Id = student.Student_Id;
-                administrativeMember.Role_Id = role.Role_Id;
-                administrativeMember.State_Id = Constants.DEFAULT_STATE;
-
-                _context.AdministrativeMembers.Add(administrativeMember);
-                await _context.SaveChangesAsync();
-
-                var createdAdministrativeMemberDTO = _mapper.Map<AdministrativeMemberDTO>(administrativeMember);
-
-                return CreatedAtAction(nameof(GetAdministrativeMember), new { id = administrativeMember.Administrative_Member_Id }, createdAdministrativeMemberDTO);
-            }
-            catch
-            {
-                return StatusCode(500, GenerateErrorResponse(500, "\"Ocurrió un error interno del servidor, no es posible crear el miembro administrativo"));
-            }
-        }
-        */
+ 
 
         [HttpPost]
         public async Task<ActionResult<AdministrativeMemberDTO>> PostAdministrativeMember(CreateUpdateAdministrativeMemberDTO administrativeMemberDTO)
@@ -171,7 +135,6 @@ namespace backendfepon.Controllers
 
                 // Mapear el DTO a la entidad del modelo
                 var administrativeMember = _mapper.Map<AdministrativeMember>(administrativeMemberDTO);
-                _logger.LogInformation("////////////////////////////////////");
                 //administrativeMember.Birth_Date = DateTime.Now;
                 administrativeMember.Faculty_Id = faculty.Faculty_Id;
                 administrativeMember.Career_Id = career.Career_Id;

@@ -35,7 +35,7 @@ namespace backendfepon.Controllers
             }
             catch
             {
-                return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no se puede obtener los estados"));
+                return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no se puede obtener los estados del evento"));
             }
         }
 

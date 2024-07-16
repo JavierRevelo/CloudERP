@@ -70,7 +70,7 @@ namespace backendfepon.Controllers
            {
                id = p.Transaction_Id,
                transactionType = p.TransactionType.Transaction_Type_Name,
-               date = p.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+               date = p.Date.ToString ("dd/MM/yyyy", CultureInfo.InvariantCulture),
                originAccount = cy.DecryptStringFromBytes_Aes(p.OriginAccount.Account_Name, _key, _iv),
                destinationAccount = cy.DecryptStringFromBytes_Aes(p.DestinationAccount.Account_Name, _key, _iv),
                value = p.Value,

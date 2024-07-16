@@ -104,53 +104,7 @@ namespace backendfepon.Controllers
             {
                 return StatusCode(500, "Ocurrió un error interno del servidor, no es posible crear el permiso");
             }
-        }
-        /*
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPermission(int id, CreateUpdatePermissionDTO permissionDTO)
-        {
-            try
-            {
-                var newPermission = new Permission();
-                var existingEvent = await _context.Events.FindAsync(id);
-                if (existingEvent == null)
-                {
-                    return NotFound("El evento no existe.");
-                }
-
-                // Mapea los valores del DTO a la entidad existente
-                _mapper.Map(permissionDTO, newPermission);
-
-                // Actualiza el Status_Id basado en el Request_Status proporcionado
-                var status = await _context.FinancialRequestStates.FirstOrDefaultAsync(s => s.State_Description == permissionDTO.Request_Status);
-                if (status == null)
-                {
-                    return BadRequest("Estado de solicitud no válido.");
-                }
-                existingEvent.Status_Id = status.Request_State_Id;
-
-                _context.Entry(existingEvent).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-
-                return NoContent();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PermissionExists(id))
-                {
-                    return NotFound("El permiso no existe.");
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Ocurrió un error interno del servidor: {ex.Message}");
-            }
-        }
-        */
+        } 
 
         [HttpPut("/updatePermission/{id}")]
         public async Task<IActionResult> UpdateEventPermission(int id, CreateUpdatePermissionDTO permissionDTO)
