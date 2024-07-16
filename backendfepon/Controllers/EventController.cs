@@ -38,6 +38,7 @@ namespace backendfepon.Controllers
                         id = p.Event_Id,
                         title = p.Title,
                         status= p.State.Event_State_Name,
+                        stateid = p.Event_Status_Id,
                         description = p.Description,
                         startDate = p.Start_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
                         endDate = p.End_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
@@ -71,6 +72,7 @@ namespace backendfepon.Controllers
                     .Select(p => new EventDTO
                     {
                         id = p.Event_Id,
+                        stateid = p.Event_Status_Id,
                         title = p.Title,
                         status = p.State.Event_State_Name,
                         description = p.Description,
@@ -258,7 +260,7 @@ namespace backendfepon.Controllers
                 {
                     if (!EventExists(id))
                     {
-                        return NotFound(GenerateErrorResponse(404, "Producto no encontrado."));
+                        return NotFound(GenerateErrorResponse(404, "Eneo no encontrado."));
                     }
                     else
                     {

@@ -3,6 +3,8 @@
     public class EventDTO
     {
         public int id { get; set; }
+
+        public int stateid { get; set; }
         public string title { get; set; }
         public string status { get; set; }
         public string description { get; set; }
