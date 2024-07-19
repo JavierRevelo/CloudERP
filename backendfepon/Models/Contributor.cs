@@ -7,7 +7,6 @@
         public int Plan_Id { get; set; }
         public int Faculty_Id { get; set; }
         public int Career_Id { get; set; }
-        public int Transaction_Id { get; set; }
         public DateTime Contributor_Date { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
@@ -21,7 +20,6 @@
 
         public ContributionPlan ContributionPlan { get; set; }
 
-        public Transaction Transaction { get; set; }
         public State State { get; set; }
 
 

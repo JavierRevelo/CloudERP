@@ -10,9 +10,6 @@ namespace backendfepon.ModelConfigurations
         {
             modelBuilder.ToTable("TRANSACTION");
             modelBuilder.HasKey(p => p.Transaction_Id);
-            modelBuilder.HasOne(t => t.Contributor)
-                .WithOne(c => c.Transaction)
-                .HasForeignKey<Contributor>(t => t.Contributor_Id);
 
             // Foreign key for OriginAccount
             modelBuilder.HasOne(t => t.OriginAccount)

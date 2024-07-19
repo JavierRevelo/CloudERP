@@ -18,13 +18,13 @@ namespace backendfepon.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-       // private readonly ILogger _logger;
+        // private readonly ILogger _logger;
 
         public FinantialRequestController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-           // _logger = logger;
+            // _logger = logger;
         }
 
         // GET: api/FinantialRequest
@@ -39,7 +39,7 @@ namespace backendfepon.Controllers
            .Select(p => new FinantialRequestDTO
            {
                id = p.Request_Id,
-              eventName= p.Events.Title,
+               eventName = p.Events.Title,
                requestStatusName = p.Financial_Request_State.State_Description,
                value = p.Value,
                reason = p.Reason
@@ -141,7 +141,7 @@ namespace backendfepon.Controllers
                 return BadRequest("Invalid Request Status name.");
             }
 
-            var findEvent = await _context.Events.FirstOrDefaultAsync(rs => rs.Title== updatedFinantialRequest.eventName);
+            var findEvent = await _context.Events.FirstOrDefaultAsync(rs => rs.Title == updatedFinantialRequest.eventName);
             if (requestStatus == null)
             {
                 return BadRequest("Invalid event name.");
@@ -157,7 +157,7 @@ namespace backendfepon.Controllers
 
             //_mapper.Map(updatedEvent, existingEvent);
             findEvent.Financial_Request_Id = id;
-            findEvent.Budget_Status= updatedFinantialRequest.requestStatusName;
+            findEvent.Budget_Status = updatedFinantialRequest.requestStatusName;
 
             _context.Entry(findEvent).State = EntityState.Modified;
 
@@ -181,7 +181,7 @@ namespace backendfepon.Controllers
 
             return NoContent();
         }
-        
+
 
         // DELETE: api/FinantialRequest/5
         [HttpDelete("{id}")]

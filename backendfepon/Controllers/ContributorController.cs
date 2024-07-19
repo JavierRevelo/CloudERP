@@ -33,21 +33,22 @@ namespace backendfepon.Controllers
             try
             {
                 var contributors = await _context.Contributors
-                    .Include(t => t.Transaction)
                     .Include(p => p.State)
                     .Include(t => t.ContributionPlan)
+                    .ThenInclude(cp => cp.AcademicPeriod)
                     .Where(p => p.State_Id == Constants.DEFAULT_STATE)
                     .Select(p => new ContributorDTO
                     {
-                        Id = p.Contributor_Id,
-                        Plan = p.ContributionPlan.Name,
-                        State_id = p.State_Id,
-                        Price = p.ContributionPlan.Economic_Value.ToString(),
-                        Date = p.Contributor_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-                        Name = p.Name,
-                        Career = p.Career.Career_Name,
-                        Faculty = p.Faculty.Faculty_Name,
-                        Email = p.Email,
+                        id = p.Contributor_Id,
+                        plan = p.ContributionPlan.Name,
+                        state_id = p.State_Id,
+                        price = p.ContributionPlan.Economic_Value,
+                        date = p.Contributor_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                        name = p.Name,
+                        career = p.Career.Career_Name,
+                        faculty = p.Faculty.Faculty_Name,
+                        email = p.Email,
+                        academicPeriod = p.ContributionPlan.AcademicPeriod.Academic_Period_Name
                     })
                     .ToListAsync();
 
@@ -66,21 +67,22 @@ namespace backendfepon.Controllers
             try
             {
                 var contributor = await _context.Contributors
-                    .Include(t => t.Transaction)
                     .Include(p => p.State)
                     .Include(t => t.ContributionPlan)
+                     .ThenInclude(cp => cp.AcademicPeriod)
                     .Where(p => p.State_Id == Constants.DEFAULT_STATE && p.Contributor_Id == id)
                     .Select(p => new ContributorDTO
                     {
-                        Id = p.Contributor_Id,
-                        Plan = p.ContributionPlan.Name,
-                        State_id = p.State_Id,
-                        Price = p.ContributionPlan.Economic_Value.ToString(),
-                        Date = p.Contributor_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-                        Name = p.Name,
-                        Career = p.Career.Career_Name,
-                        Faculty = p.Faculty.Faculty_Name,
-                        Email = p.Email,
+                        id = p.Contributor_Id,
+                        plan = p.ContributionPlan.Name,
+                        state_id = p.State_Id,
+                        price = p.ContributionPlan.Economic_Value,
+                        date = p.Contributor_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                        name = p.Name,
+                        career = p.Career.Career_Name,
+                        faculty = p.Faculty.Faculty_Name,
+                        email = p.Email,
+                        academicPeriod = p.ContributionPlan.AcademicPeriod.Academic_Period_Name
                     })
                     .FirstOrDefaultAsync();
 
@@ -114,27 +116,33 @@ namespace backendfepon.Controllers
                     return BadRequest(GenerateErrorResponse(400, "Carrera no válida."));
                 }
 
-                var plan = await _context.ContributionPlans.FirstOrDefaultAsync(p => p.Name == contributorDTO.Plan);
+                var plan = await _context.ContributionPlans
+                    .Include(p => p.AcademicPeriod)  // Ensure AcademicPeriod is included
+                    .FirstOrDefaultAsync(p => p.Name == contributorDTO.Plan);
                 if (plan == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "Plan no válido."));
                 }
 
+                // Log the retrieved ContributionPlan and AcademicPeriod
+                _logger.LogInformation($"Retrieved ContributionPlan: {plan.Name}, AcademicPeriod: {plan.AcademicPeriod?.Academic_Period_Name}");
+
                 var contributor = _mapper.Map<Contributor>(contributorDTO);
-
-                // Verifica que el mapeo sea correcto
-                _logger.LogInformation($"Mapped Contributor: {contributor.Name}, {contributor.Email}, {contributor.Contributor_Date}");
-
                 contributor.Faculty_Id = faculty.Faculty_Id;
                 contributor.Career_Id = career.Career_Id;
                 contributor.Plan_Id = plan.Plan_Id;
                 contributor.State_Id = Constants.DEFAULT_STATE;
-                contributor.Transaction_Id = 4;  // revisar esta transaccion
+
+                // Log the mapped Contributor for debugging
+                _logger.LogInformation($"Mapped Contributor: {contributor.Name}, {contributor.Email}, {contributor.Contributor_Date}, Plan: {contributor.ContributionPlan?.Name}, AcademicPeriod: {contributor.ContributionPlan?.AcademicPeriod?.Academic_Period_Name}");
 
                 _context.Contributors.Add(contributor);
                 await _context.SaveChangesAsync();
 
                 var createdContributorDTO = _mapper.Map<ContributorDTO>(contributor);
+
+                // Ensure the AcademicPeriod is included in the DTO
+                createdContributorDTO.academicPeriod = plan.AcademicPeriod?.Academic_Period_Name;
 
                 return CreatedAtAction(nameof(GetContributor), new { id = contributor.Contributor_Id }, createdContributorDTO);
             }
@@ -144,6 +152,7 @@ namespace backendfepon.Controllers
                 return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible crear el contribuyente."));
             }
         }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutContributor(int id, CreateUpdateContributorDTO contributorDTO)
@@ -168,7 +177,9 @@ namespace backendfepon.Controllers
                     return BadRequest(GenerateErrorResponse(400, "Carrera no válida."));
                 }
 
-                var plan = await _context.ContributionPlans.FirstOrDefaultAsync(p => p.Name == contributorDTO.Plan);
+                var plan = await _context.ContributionPlans
+                   .Include(p => p.AcademicPeriod)  // Ensure AcademicPeriod is included
+                   .FirstOrDefaultAsync(p => p.Name == contributorDTO.Plan);
                 if (plan == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "Plan no válido."));
@@ -178,7 +189,6 @@ namespace backendfepon.Controllers
                 oldContributor.Faculty_Id = faculty.Faculty_Id;
                 oldContributor.Career_Id = career.Career_Id;
                 oldContributor.Plan_Id = plan.Plan_Id;
-                oldContributor.Transaction_Id = 5; //revisar transaccion
 
                 _context.Entry(oldContributor).State = EntityState.Modified;
 
@@ -198,7 +208,11 @@ namespace backendfepon.Controllers
                     }
                 }
 
-                return NoContent();
+                // Map the updated contributor to a DTO
+                var updatedContributorDTO = _mapper.Map<ContributorDTO>(oldContributor);
+                updatedContributorDTO.academicPeriod = plan.AcademicPeriod?.Academic_Period_Name;
+
+                return Ok(updatedContributorDTO);
             }
             catch (Exception ex)
             {

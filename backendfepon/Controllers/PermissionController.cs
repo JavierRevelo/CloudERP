@@ -29,11 +29,11 @@ namespace backendfepon.Controllers
             try
             {
                 var permissions = await _context.Permissions
-                   // .Include(p => p.Event)
+                    // .Include(p => p.Event)
                     .Select(p => new PermissionDTO
                     {
                         Permission_Id = p.Permission_Id,
-                       // Event_Name = p.Event.Title,
+                        // Event_Name = p.Event.Title,
                         Request = p.Request,
                         Request_Status = p.FinancialRequestState.State_Description
                     })
@@ -104,7 +104,7 @@ namespace backendfepon.Controllers
             {
                 return StatusCode(500, "Ocurrió un error interno del servidor, no es posible crear el permiso");
             }
-        } 
+        }
 
         [HttpPut("/updatePermission/{id}")]
         public async Task<IActionResult> UpdateEventPermission(int id, CreateUpdatePermissionDTO permissionDTO)
