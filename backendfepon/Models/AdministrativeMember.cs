@@ -16,11 +16,6 @@ namespace backendfepon.Models
         public DateTime Birth_Date { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        //public int Student_Id { get; set; }
-       
-        
-
-        //public Student Student { get; set; }
 
         public Faculty Faculty { get; set; }
         public Career Career { get; set; }
@@ -31,6 +26,5 @@ namespace backendfepon.Models
         public Role Role { get; set; }
         public State State { get; set; }
 
-      // public ICollection<FinancialRequest> FinancialRequests { get; set; }
     }
 }

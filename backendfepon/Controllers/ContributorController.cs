@@ -5,6 +5,7 @@ using backendfepon.DTOs.ContributorDTO;
 using backendfepon.DTOs.ProductDTOs;
 using backendfepon.Models;
 using backendfepon.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -13,6 +14,7 @@ namespace backendfepon.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ContributorController : BaseController
     {
         private readonly ApplicationDbContext _context;
@@ -100,6 +102,7 @@ namespace backendfepon.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "OrganizationalOnly")]
         public async Task<ActionResult<ContributorDTO>> PostContributor(CreateUpdateContributorDTO contributorDTO)
         {
             try
@@ -155,6 +158,7 @@ namespace backendfepon.Controllers
 
 
         [HttpPut("{id}")]
+        [Authorize(Policy = "OrganizationalOnly")]
         public async Task<IActionResult> PutContributor(int id, CreateUpdateContributorDTO contributorDTO)
         {
             try
@@ -216,37 +220,14 @@ namespace backendfepon.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error updating contributor");
+
                 return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible actualizar el contribuyente."));
-            }
-        }
-
-
-        // DELETE: api/Contributor/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteContributor(int id)
-        {
-            try
-            {
-                var contributor = await _context.Contributors.FindAsync(id);
-                if (contributor == null)
-                {
-                    return NotFound(GenerateErrorResponse(404, "Aportante no encontrado."));
-                }
-
-                _context.Contributors.Remove(contributor);
-                await _context.SaveChangesAsync();
-
-                return NoContent();
-            }
-            catch
-            {
-                return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible eliminar el aportante"));
             }
         }
 
         // PATCH: api/Products/5
         [HttpPatch("{id}")]
+        [Authorize(Policy = "OrganizationalOnly")]
         public async Task<IActionResult> PatchContributorState(int id)
         {
             try

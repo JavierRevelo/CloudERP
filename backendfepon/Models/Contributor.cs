@@ -10,11 +10,6 @@
         public DateTime Contributor_Date { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-
-        //public int Student_Id { get; set; }
-
-        //public Student Student { get; set; }
-
         public Career Career { get; set; }
         public Faculty Faculty { get; set; }
 

@@ -5,6 +5,7 @@ using backendfepon.DTOs.ContributionPlanDTOs;
 using backendfepon.DTOs.ProductDTOs;
 using backendfepon.Models;
 using backendfepon.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ namespace backendfepon.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class ContributionPlanController : BaseController
     {
         private readonly ApplicationDbContext _context;
@@ -88,6 +90,7 @@ namespace backendfepon.Controllers
 
         // POST: api/ContributionPlan
         [HttpPost]
+        [Authorize(Policy = "OrganizationalOnly")]
         public async Task<ActionResult<ContributionPlanDTO>> PostContributionPlan(CreateUpdateContributionPlanDTO contributionPlanDTO)
         {
             try
@@ -118,6 +121,7 @@ namespace backendfepon.Controllers
 
         // PUT: api/ContributionPlan/5
         [HttpPut("{id}")]
+        [Authorize(Policy = "OrganizationalOnly")]
         public async Task<IActionResult> PutContributionPlan(int id, CreateUpdateContributionPlanDTO updatedContributionPlan)
         {
             try
@@ -165,6 +169,7 @@ namespace backendfepon.Controllers
 
         // PATCH: api/ContributionPlan/5
         [HttpPatch("{id}")]
+        [Authorize(Policy = "OrganizationalOnly")]
         public async Task<IActionResult> PatchContributionPlanState(int id)
         {
             try

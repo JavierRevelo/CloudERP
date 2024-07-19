@@ -5,6 +5,7 @@ using backendfepon.DTOs.AssociationDTOs;
 using backendfepon.DTOs.ProductDTOs;
 using backendfepon.Models;
 using backendfepon.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -99,6 +100,7 @@ namespace backendfepon.Controllers
  
 
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<AdministrativeMemberDTO>> PostAdministrativeMember(CreateUpdateAdministrativeMemberDTO administrativeMemberDTO)
         {
             try
@@ -164,6 +166,7 @@ namespace backendfepon.Controllers
 
         // PUT: api/AdministrativeMembers/5
         [HttpPut("{id}")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> PutAdministrativeMember(int id, CreateUpdateAdministrativeMemberDTO administrativeMemberDTO)
         {
             try
@@ -235,6 +238,7 @@ namespace backendfepon.Controllers
 
         // DELETE: api/AdministrativeMembers/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> DeleteAdministrativeMember(int id)
         {
             try
@@ -259,6 +263,7 @@ namespace backendfepon.Controllers
 
         // PATCH: api/Products/5
         [HttpPatch("{id}")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> PatchProductState(int id)
         {
             try

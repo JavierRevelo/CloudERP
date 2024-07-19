@@ -1,6 +1,7 @@
 ﻿using backendfepon.Data;
 using backendfepon.DTOs.RoleDTOs;
 using backendfepon.DTOs.StateDTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,7 @@ namespace backendfepon.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RoleController : BaseController
     {
         private readonly ApplicationDbContext _context;

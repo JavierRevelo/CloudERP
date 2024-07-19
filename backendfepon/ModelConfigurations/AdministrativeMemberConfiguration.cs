@@ -11,11 +11,6 @@ namespace backendfepon.ModelConfigurations
             modelBuilder.ToTable("ADMINISTRATIVE_MEMBER");
             modelBuilder.HasKey(p => p.Administrative_Member_Id);
 
-            // Relationships
-           /* modelBuilder.HasOne(e => e.Student)
-                .WithOne(c => c.AdministrativeMember)
-                .HasForeignKey<AdministrativeMember>(e => e.Student_Id);
-           */
 
             modelBuilder
               .HasOne(p => p.Role)

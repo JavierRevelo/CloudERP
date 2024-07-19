@@ -34,11 +34,7 @@ namespace backendfepon.ModelConfigurations.Profiles
                 .ForMember(dest => dest.Semester, opt => opt.Ignore())
                 .ForMember(dest => dest.State, opt => opt.Ignore()) // Ignora Semester si no está mapeado
                 .ForMember(dest => dest.Role_Id, opt => opt.Ignore()); // Ignora Role_Id
-            /*
-            // Mapping from CreateUpdateAdministrativeMemberDTO to AdministrativeMember
-            CreateMap<CreateUpdateAdministrativeMemberDTO, AdministrativeMember>()
-                //.ForMember(dest => dest, opt => opt.Ignore())
-                .ForMember(dest => dest.Role_Id, opt => opt.Ignore());*/
+          
         }
     }
 }
