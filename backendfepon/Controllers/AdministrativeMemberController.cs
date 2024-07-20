@@ -18,13 +18,11 @@ namespace backendfepon.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly ILogger<EventController> _logger;
 
-        public AdministrativeMembersController(ApplicationDbContext context, IMapper mapper, ILogger<EventController> logger)
+        public AdministrativeMembersController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _logger = logger;
         }
 
         // GET: api/AdministrativeMembers

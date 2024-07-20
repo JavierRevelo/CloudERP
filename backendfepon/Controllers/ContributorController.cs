@@ -19,13 +19,11 @@ namespace backendfepon.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly ILogger<EventController> _logger;
 
-        public ContributorController(ApplicationDbContext context, IMapper mapper, ILogger<EventController> logger)
+        public ContributorController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _logger = logger;
         }
 
         // GET: api/Contributor
@@ -127,17 +125,12 @@ namespace backendfepon.Controllers
                     return BadRequest(GenerateErrorResponse(400, "Plan no válido."));
                 }
 
-                // Log the retrieved ContributionPlan and AcademicPeriod
-                _logger.LogInformation($"Retrieved ContributionPlan: {plan.Name}, AcademicPeriod: {plan.AcademicPeriod?.Academic_Period_Name}");
 
                 var contributor = _mapper.Map<Contributor>(contributorDTO);
                 contributor.Faculty_Id = faculty.Faculty_Id;
                 contributor.Career_Id = career.Career_Id;
                 contributor.Plan_Id = plan.Plan_Id;
                 contributor.State_Id = Constants.DEFAULT_STATE;
-
-                // Log the mapped Contributor for debugging
-                _logger.LogInformation($"Mapped Contributor: {contributor.Name}, {contributor.Email}, {contributor.Contributor_Date}, Plan: {contributor.ContributionPlan?.Name}, AcademicPeriod: {contributor.ContributionPlan?.AcademicPeriod?.Academic_Period_Name}");
 
                 _context.Contributors.Add(contributor);
                 await _context.SaveChangesAsync();
@@ -151,7 +144,6 @@ namespace backendfepon.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error creating contributor");
                 return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible crear el contribuyente."));
             }
         }
