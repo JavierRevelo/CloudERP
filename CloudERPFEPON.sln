@@ -5,7 +5,9 @@ VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "fronterpfepon", "FrontERPFEPON\fronterpfepon.esproj", "{42E10B85-1B27-45C3-BEC4-A850E03F13B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "backendfepon", "backendfepon\backendfepon.csproj", "{62981984-A2FF-4298-BB20-045AF41ADAE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "backendfepon", "backendfepon\backendfepon.csproj", "{62981984-A2FF-4298-BB20-045AF41ADAE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestTIC", "UnitTestTIC\UnitTestTIC.csproj", "{646199B0-C1CC-4080-AE9E-0A2421DC766E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{62981984-A2FF-4298-BB20-045AF41ADAE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62981984-A2FF-4298-BB20-045AF41ADAE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62981984-A2FF-4298-BB20-045AF41ADAE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{646199B0-C1CC-4080-AE9E-0A2421DC766E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{646199B0-C1CC-4080-AE9E-0A2421DC766E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{646199B0-C1CC-4080-AE9E-0A2421DC766E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{646199B0-C1CC-4080-AE9E-0A2421DC766E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
