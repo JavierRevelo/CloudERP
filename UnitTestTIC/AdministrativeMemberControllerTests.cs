@@ -49,12 +49,18 @@ namespace UnitTestTIC
 
 
             _controller = new AdministrativeMembersController(_context, _mapper);
+            InitializeDatabase();
         }
 
         private void InitializeDatabase()
         {
             _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
+        }
+        public void Dispose()
+        {
+            _context.Database.EnsureDeleted();
+            _context.Dispose();
         }
 
         [Fact]
@@ -245,7 +251,7 @@ namespace UnitTestTIC
 
             var adminMember = new AdministrativeMember
             {
-                Administrative_Member_Id = 1,
+                Administrative_Member_Id = 4,
                 Name = "John",
                 Last_Name = "Doe",
                 Birth_Date = DateTime.ParseExact("01/01/2000", "dd/MM/yyyy", CultureInfo.InvariantCulture),
@@ -262,7 +268,7 @@ namespace UnitTestTIC
             _context.SaveChanges();
 
             // Act
-            var result = await _controller.DeleteAdministrativeMember(1);
+            var result = await _controller.DeleteAdministrativeMember(4);
 
             // Assert
             Assert.IsType<NoContentResult>(result);

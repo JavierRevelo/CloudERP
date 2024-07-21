@@ -54,7 +54,11 @@ namespace UnitTestTIC
             _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
         }
-
+        public void Dispose()
+        {
+            _context.Database.EnsureDeleted();
+            _context.Dispose();
+        }
         [Fact]
         public async Task GetContributionPlans_ReturnsContributionPlans_WhenContributionPlansExist()
         {

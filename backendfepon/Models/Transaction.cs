@@ -11,8 +11,6 @@
             public decimal Value { get; set; }
             public string Reason { get; set; }
 
-            // Navigation properties
-            public Contributor Contributor { get; set; }
             
             public EventIncome EventIncome { get; set; }
 

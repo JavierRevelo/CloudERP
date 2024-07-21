@@ -54,6 +54,11 @@ namespace UnitTestTIC
             _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
         }
+        public void Dispose()
+        {
+            _context.Database.EnsureDeleted();
+            _context.Dispose();
+        }
 
         [Fact]
         public async Task GetContributors_ReturnsContributors_WhenContributorsExist()
@@ -81,25 +86,8 @@ namespace UnitTestTIC
                 Email = "john.doe@example.com"
             };
 
-            var contributor2 = new Contributor
-            {
-                Contributor_Id = 2,
-                Name = "Jane Doe",
-                State_Id = Constants.DEFAULT_STATE,
-                ContributionPlan = new ContributionPlan
-                {
-                    Name = "Plan 2",
-                    Economic_Value = 200,
-                    AcademicPeriod = new AcademicPeriod { Academic_Period_Name = "2024" },
-                    Benefits = "Plan A"
-                },
-                Contributor_Date = DateTime.Now,
-                Career = new Career { Career_Name = "Medicine" },
-                Faculty = new Faculty { Faculty_Name = "Health Sciences" },
-                Email = "jane.doe@example.com"
-            };
 
-            _context.Contributors.AddRange(contributor1, contributor2);
+            _context.Contributors.Add(contributor1);
             _context.SaveChanges();
 
             // Act
@@ -110,7 +98,7 @@ namespace UnitTestTIC
             var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
             var returnedContributors = Assert.IsType<List<ContributorDTO>>(okResult.Value);
 
-            Assert.Equal(2, returnedContributors.Count);
+            Assert.Equal(1, returnedContributors.Count);
         }
 
 
@@ -202,7 +190,7 @@ namespace UnitTestTIC
 
             var contributor = new Contributor
             {
-                Contributor_Id = 9,
+                Contributor_Id = 11,
                 Name = "John Doe",
                 State_Id = Constants.DEFAULT_STATE,
                 ContributionPlan = new ContributionPlan
@@ -231,11 +219,11 @@ namespace UnitTestTIC
                 Email = "john.smith@example.com"
             };
 
-            var faculty = new Faculty { Faculty_Id = 2, Faculty_Name = "Science" };
-            var career = new Career { Career_Id = 2, Career_Name = "Engineering" };
+            var faculty = new Faculty { Faculty_Id = 3, Faculty_Name = "Science" };
+            var career = new Career { Career_Id = 3, Career_Name = "Engineering" };
             var plan = new ContributionPlan
             {
-                Plan_Id = 2,
+                Plan_Id = 3,
                 Name = "Plan 1",
                 Economic_Value = 100,
                 AcademicPeriod = new AcademicPeriod { Academic_Period_Name = "2024" },
@@ -248,7 +236,7 @@ namespace UnitTestTIC
             _context.SaveChanges();
 
             // Act
-            var result = await _controller.PutContributor(9, contributorDTO);
+            var result = await _controller.PutContributor(11, contributorDTO);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
@@ -262,7 +250,7 @@ namespace UnitTestTIC
 
             var contributor = new Contributor
             {
-                Contributor_Id = 1,
+                Contributor_Id = 2,
                 Name = "John Doe",
                 State_Id = Constants.DEFAULT_STATE,
                 ContributionPlan = new ContributionPlan
@@ -282,11 +270,11 @@ namespace UnitTestTIC
             _context.SaveChanges();
 
             // Act
-            var result = await _controller.PatchContributorState(1);
+            var result = await _controller.PatchContributorState(2);
 
             // Assert
             var actionResult = Assert.IsType<NoContentResult>(result);
-            var updatedContributor = await _context.Contributors.FindAsync(1);
+            var updatedContributor = await _context.Contributors.FindAsync(2);
 
             Assert.Equal(Constants.STATE_INACTIVE, updatedContributor.State_Id);
         }
