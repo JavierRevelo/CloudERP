@@ -2,6 +2,6 @@
 {
     public class CategoryDTO
     {
-        public string description { get; set; }
+        public string description { get; set; } 
     }
 }
