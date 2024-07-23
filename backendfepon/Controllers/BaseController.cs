@@ -1,8 +1,6 @@
 ﻿using backendfepon.ErrorsModels;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 
 
 public class BaseController : ControllerBase

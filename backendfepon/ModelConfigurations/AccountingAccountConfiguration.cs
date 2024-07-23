@@ -1,8 +1,4 @@
-﻿using backendfepon.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace backendfepon.ModelConfigurations
+﻿namespace backendfepon.ModelConfigurations
 {/*
     public class AccountingAccountConfiguration : IEntityTypeConfiguration<AccountingAccount>
     {

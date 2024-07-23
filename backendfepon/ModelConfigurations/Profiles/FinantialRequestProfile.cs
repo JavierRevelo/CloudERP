@@ -18,7 +18,7 @@ namespace backendfepon.ModelConfigurations.Profiles
             CreateMap<CreateUpdateFinantialRequestDTO, FinancialRequest>()
                 //.ForMember(dest => dest.Administrative_Member_Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Request_Status_Id, opt => opt.Ignore());
-            
+
         }
     }
 }

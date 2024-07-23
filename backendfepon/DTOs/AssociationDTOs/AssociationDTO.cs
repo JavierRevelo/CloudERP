@@ -7,6 +7,6 @@
         public string mission { get; set; }
         public string vision { get; set; }
 
-        
+
     }
 }

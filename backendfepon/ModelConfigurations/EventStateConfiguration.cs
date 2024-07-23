@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace backendfepon.ModelConfigurations
 {
-    public class EventStateConfiguration: IEntityTypeConfiguration<EventState>
+    public class EventStateConfiguration : IEntityTypeConfiguration<EventState>
     {
         public void Configure(EntityTypeBuilder<EventState> modelBuilder)
         {

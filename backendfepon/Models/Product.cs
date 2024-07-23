@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace backendfepon.Models;
+﻿namespace backendfepon.Models;
 
 public partial class Product
 {
@@ -19,7 +16,7 @@ public partial class Product
 
     public decimal? Economic_Value { get; set; }
 
-        public int Quantity { get; set; }
+    public int Quantity { get; set; }
 
     public string Label { get; set; } = null!;
 

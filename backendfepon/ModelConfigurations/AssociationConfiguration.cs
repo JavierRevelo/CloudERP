@@ -14,7 +14,7 @@ namespace backendfepon.ModelConfigurations
                .HasOne(p => p.State)
                .WithMany(s => s.Associations)
                .HasForeignKey(p => p.State_Id);
-           
+
         }
     }
 }

@@ -2,9 +2,9 @@
 using backendfepon.Data;
 using backendfepon.DTOs.ProductDTOs;
 using backendfepon.Models;
+using backendfepon.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using backendfepon.Utils;
 
 
 namespace backendfepon.Controllers
@@ -13,7 +13,7 @@ namespace backendfepon.Controllers
     [ApiController]
     public class ProductsController : BaseController
     {
-        
+
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         public ProductsController(ApplicationDbContext context, IMapper mapper)

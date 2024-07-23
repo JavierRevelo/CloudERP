@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using backendfepon.Cypher;
 using backendfepon.Data;
-using backendfepon.DTOs.ProductDTOs;
 using backendfepon.DTOs.TransactionDTOs;
 using backendfepon.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
@@ -39,15 +37,15 @@ namespace backendfepon.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TransactionDTO>>> GetTransactions()
         {
-            CypherAES cy =new CypherAES();
+            CypherAES cy = new CypherAES();
             var transactions = await _context.Transactions
             .Include(p => p.DestinationAccount)
            .Select(p => new TransactionDTO
            {
                id = p.Transaction_Id,
-               transactionType= p.TransactionType.Transaction_Type_Name,
+               transactionType = p.TransactionType.Transaction_Type_Name,
                date = p.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-               originAccount = cy.DecryptStringFromBytes_Aes(p.OriginAccount.Account_Name, _key, _iv) ,
+               originAccount = cy.DecryptStringFromBytes_Aes(p.OriginAccount.Account_Name, _key, _iv),
                destinationAccount = cy.DecryptStringFromBytes_Aes(p.DestinationAccount.Account_Name, _key, _iv),
                value = p.Value,
                description = p.Reason,
@@ -70,7 +68,7 @@ namespace backendfepon.Controllers
            {
                id = p.Transaction_Id,
                transactionType = p.TransactionType.Transaction_Type_Name,
-               date = p.Date.ToString ("dd/MM/yyyy", CultureInfo.InvariantCulture),
+               date = p.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
                originAccount = cy.DecryptStringFromBytes_Aes(p.OriginAccount.Account_Name, _key, _iv),
                destinationAccount = cy.DecryptStringFromBytes_Aes(p.DestinationAccount.Account_Name, _key, _iv),
                value = p.Value,
@@ -96,13 +94,13 @@ namespace backendfepon.Controllers
             {
                 // Obtén todas las cuentas y desencripta en memoria
                 var allAccounts = await _context.CAccountinngAccounts.ToListAsync();
-                
+
                 var originAccount = allAccounts.FirstOrDefault(a => cy.DecryptStringFromBytes_Aes(a.Account_Name, _key, _iv) == transactionDTO.originAccount);
                 if (originAccount == null)
                 {
                     return BadRequest(GenerateErrorResponse(400, "Nombre de cuenta de origen no válido."));
                 }
-                
+
                 var destinationAccount = allAccounts.FirstOrDefault(a => cy.DecryptStringFromBytes_Aes(a.Account_Name, _key, _iv) == transactionDTO.destinationAccount);
                 if (destinationAccount == null)
                 {
@@ -116,11 +114,11 @@ namespace backendfepon.Controllers
                 }
 
 
-               decimal originAccountValue =Decimal.Parse(cy.DecryptStringFromBytes_Aes(originAccount.Current_Value, _key, _iv)) - transactionDTO.value;
-               decimal destinationAccountValue = Decimal.Parse(cy.DecryptStringFromBytes_Aes(destinationAccount.Current_Value, _key, _iv)) + transactionDTO.value;
+                decimal originAccountValue = Decimal.Parse(cy.DecryptStringFromBytes_Aes(originAccount.Current_Value, _key, _iv)) - transactionDTO.value;
+                decimal destinationAccountValue = Decimal.Parse(cy.DecryptStringFromBytes_Aes(destinationAccount.Current_Value, _key, _iv)) + transactionDTO.value;
 
-               originAccount.Current_Value = cy.EncryptStringToBytes_AES(originAccountValue.ToString(), _key, _iv);
-               destinationAccount.Current_Value= cy.EncryptStringToBytes_AES(destinationAccountValue.ToString(), _key, _iv);
+                originAccount.Current_Value = cy.EncryptStringToBytes_AES(originAccountValue.ToString(), _key, _iv);
+                destinationAccount.Current_Value = cy.EncryptStringToBytes_AES(destinationAccountValue.ToString(), _key, _iv);
 
 
                 var transaction = _mapper.Map<Transaction>(transactionDTO);
@@ -129,7 +127,7 @@ namespace backendfepon.Controllers
                 transaction.Destination_Account = destinationAccount.Account_Id;
                 transaction.Transaction_Type_Id = transactionType.Transaction_Type_Id;
 
-                
+
 
                 _context.Transactions.Add(transaction);
                 _context.Entry(originAccount).State = EntityState.Modified;

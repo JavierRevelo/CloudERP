@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using backendfepon.Data;
-using backendfepon.DTOs.AssociationDTOs;
 using backendfepon.DTOs.ContributorDTO;
-using backendfepon.DTOs.ProductDTOs;
 using backendfepon.Models;
 using backendfepon.Utils;
 using Microsoft.AspNetCore.Authorization;

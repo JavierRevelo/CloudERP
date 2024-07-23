@@ -2,17 +2,12 @@
 using backendfepon.Cypher;
 using backendfepon.Data;
 using backendfepon.DTOs.AccountingAccountDTOs;
-using backendfepon.DTOs.ProductDTOs;
 using backendfepon.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace backendfepon.Controllers
 {
@@ -45,7 +40,7 @@ namespace backendfepon.Controllers
                 var dAccounts = new List<AccountingAccountDTO>();
                 var CaccountingAccounts = await _context.CAccountinngAccounts
                     .Include(p => p.AccountType)
-                    
+
                     .Select(p => new CAccountingAccountDTOs
                     {
                         Account_Id = p.Account_Id,
@@ -140,13 +135,14 @@ namespace backendfepon.Controllers
                     return BadRequest(GenerateErrorResponse(400, "Nombre de tipo de cuenta no válido."));
                 }
 
-                var accountingA = new CAccountingAccount { 
-                    Accounting_Account_Status= cy.EncryptStringToBytes_AES("ACTIVO",_key,_iv),
-                    Account_Name= cy.EncryptStringToBytes_AES(accounntingAccountDTO.accountName, _key, _iv),
-                    Account_Type_Id=category.Account_Type_Id,
-                    Current_Value= cy.EncryptStringToBytes_AES(accounntingAccountDTO.currentValue.ToString(), _key, _iv) ,
-                    Initial_Balance= cy.EncryptStringToBytes_AES(accounntingAccountDTO.currentValue.ToString(), _key, _iv) ,
-                    Initial_Balance_Date= cy.EncryptStringToBytes_AES(accounntingAccountDTO.date.ToString(), _key, _iv),
+                var accountingA = new CAccountingAccount
+                {
+                    Accounting_Account_Status = cy.EncryptStringToBytes_AES("ACTIVO", _key, _iv),
+                    Account_Name = cy.EncryptStringToBytes_AES(accounntingAccountDTO.accountName, _key, _iv),
+                    Account_Type_Id = category.Account_Type_Id,
+                    Current_Value = cy.EncryptStringToBytes_AES(accounntingAccountDTO.currentValue.ToString(), _key, _iv),
+                    Initial_Balance = cy.EncryptStringToBytes_AES(accounntingAccountDTO.currentValue.ToString(), _key, _iv),
+                    Initial_Balance_Date = cy.EncryptStringToBytes_AES(accounntingAccountDTO.date.ToString(), _key, _iv),
                 };
 
                 /*
@@ -161,14 +157,14 @@ namespace backendfepon.Controllers
 
                 var createdAccountingDTO = new AccountingAccountDTO
                 {
-                    id= accountingA.Account_Id,
+                    id = accountingA.Account_Id,
                     accountName = cy.DecryptStringFromBytes_Aes(accountingA.Account_Name, _key, _iv),
                     accountType = accountingA.AccountType.Account_Type_Name,
-                    currentValue = Decimal.Parse( cy.DecryptStringFromBytes_Aes(accountingA.Current_Value, _key, _iv)),
-                    date = DateTime.Parse( cy.DecryptStringFromBytes_Aes(accountingA.Initial_Balance_Date, _key, _iv)).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    initialBalance= Decimal.Parse(cy.DecryptStringFromBytes_Aes(accountingA.Initial_Balance, _key, _iv))
+                    currentValue = Decimal.Parse(cy.DecryptStringFromBytes_Aes(accountingA.Current_Value, _key, _iv)),
+                    date = DateTime.Parse(cy.DecryptStringFromBytes_Aes(accountingA.Initial_Balance_Date, _key, _iv)).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    initialBalance = Decimal.Parse(cy.DecryptStringFromBytes_Aes(accountingA.Initial_Balance, _key, _iv))
                 };
-                return CreatedAtAction(nameof(GetAccountingAccount), new { id = createdAccountingDTO.id}, createdAccountingDTO);
+                return CreatedAtAction(nameof(GetAccountingAccount), new { id = createdAccountingDTO.id }, createdAccountingDTO);
             }
             catch
             {

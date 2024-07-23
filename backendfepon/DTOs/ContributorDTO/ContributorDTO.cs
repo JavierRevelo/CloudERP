@@ -1,6 +1,4 @@
-﻿using backendfepon.Models;
-
-namespace backendfepon.DTOs.ContributorDTO
+﻿namespace backendfepon.DTOs.ContributorDTO
 {
     public class ContributorDTO
     {

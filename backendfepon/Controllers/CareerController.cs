@@ -1,8 +1,5 @@
 ﻿using backendfepon.Data;
-using backendfepon.DTOs.AcademicPeriodDTOs;
 using backendfepon.DTOs.CareerDTOs;
-using backendfepon.DTOs.CategoryDTOs;
-using backendfepon.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

@@ -10,7 +10,7 @@ namespace backendfepon.ModelConfigurations
         {
             modelBuilder.ToTable("FINANCIAL_REQUEST_STATE");
             modelBuilder.HasKey(p => p.Request_State_Id);
-           
+
         }
     }
 }

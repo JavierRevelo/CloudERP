@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using backendfepon.Data;
-using backendfepon.DTOs.AssociationDTOs;
 using backendfepon.DTOs.EventDTOs;
 using backendfepon.Models;
 using backendfepon.Utils;
@@ -37,7 +36,7 @@ namespace backendfepon.Controllers
                     {
                         id = p.Event_Id,
                         title = p.Title,
-                        status= p.State.Event_State_Name,
+                        status = p.State.Event_State_Name,
                         stateid = p.Event_Status_Id,
                         description = p.Description,
                         startDate = p.Start_Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
@@ -120,7 +119,7 @@ namespace backendfepon.Controllers
                     Request_Status_Id = budgetStatus.Request_State_Id,
                     Reason = "",
                     Value = eventDTO.budget,
-                    State_Id=Constants.DEFAULT_STATE  
+                    State_Id = Constants.DEFAULT_STATE
                 };
 
                 // Agregar el nuevo FinancialRequest a la base de datos y guardar cambios para obtener el Request_Id
@@ -175,8 +174,8 @@ namespace backendfepon.Controllers
 
 
                 var existingFinancialRequest = await _context.FinancialRequests.FirstOrDefaultAsync(s => s.Request_Id == existingEvent.Financial_Request_Id);
-                existingFinancialRequest.Request_Status_Id= budgetState.Request_State_Id;
-                existingFinancialRequest.Value=updatedEvent.budget;   
+                existingFinancialRequest.Request_Status_Id = budgetState.Request_State_Id;
+                existingFinancialRequest.Value = updatedEvent.budget;
 
                 _mapper.Map(updatedEvent, existingEvent);
                 existingEvent.State_Id = state.Event_State_Id;
@@ -202,10 +201,10 @@ namespace backendfepon.Controllers
 
                 return NoContent();
             }
-           
+
             catch (DbUpdateException ex)
             {
-                return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible actualizar el evento",ex));
+                return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible actualizar el evento", ex));
             }
         }
 

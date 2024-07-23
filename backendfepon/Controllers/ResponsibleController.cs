@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using backendfepon.Data;
-using backendfepon.DTOs.EventDTOs;
-using backendfepon.DTOs.EventExpenseDTO;
 using backendfepon.DTOs.ResponsibleDTOs;
 using backendfepon.Models;
 using Microsoft.AspNetCore.Mvc;

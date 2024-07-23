@@ -13,7 +13,7 @@
         public byte[] Initial_Balance { get; set; }
 
         public byte[] Accounting_Account_Status { get; set; }
-    
+
 
         // Navigation properties
         public ICollection<Transaction> OriginTransactions { get; set; }

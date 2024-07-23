@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using backendfepon.Cypher;
 using backendfepon.DTOs.EventDTOs;
 using backendfepon.Models;
 
@@ -10,7 +9,7 @@ namespace backendfepon.ModelConfigurations.Profiles
         public EventProfile()
         {
 
-           
+
             CreateMap<Event, EventDTO>()
            .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.Event_Id))
            .ForMember(dest => dest.stateid, opt => opt.MapFrom(src => src.Event_Status_Id))

@@ -24,7 +24,7 @@ namespace backendfepon.ModelConfigurations
                 .WithMany(c => c.EventExpenses)
                 .HasForeignKey(e => e.Event_Id);*/
 
-           
+
 
 
         }

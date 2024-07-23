@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
 using backendfepon.Data;
-using backendfepon.DTOs.ProductDTOs;
 using backendfepon.DTOs.ProviderDTOs;
-using backendfepon.DTOs.TransactionDTOs;
 using backendfepon.Models;
 using backendfepon.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Numerics;
 
 namespace backendfepon.Controllers
 {

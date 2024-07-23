@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using backendfepon.DTOs.AccountingAccountDTOs;
-using backendfepon.Models;
-
-namespace backendfepon.ModelConfigurations.Profiles
+﻿namespace backendfepon.ModelConfigurations.Profiles
 {
     /*
     public class AccountingAccountProfile : Profile

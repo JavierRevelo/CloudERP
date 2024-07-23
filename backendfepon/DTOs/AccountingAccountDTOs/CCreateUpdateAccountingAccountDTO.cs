@@ -2,7 +2,7 @@
 {
     public class CCreateUpdateAccountingAccountDTO
     {
-         public int Account_Type_Id { get; set; }
+        public int Account_Type_Id { get; set; }
         public string Account_Name { get; set; }
         public byte[] Current_Value { get; set; }
         public byte[] Initial_Balance_Date { get; set; }

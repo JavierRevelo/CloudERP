@@ -1,6 +1,5 @@
 ﻿using backendfepon.Data;
 using backendfepon.DTOs.FacultyDTOs;
-using backendfepon.DTOs.StateDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

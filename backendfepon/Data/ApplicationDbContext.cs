@@ -15,11 +15,11 @@ namespace backendfepon.Data
         public DbSet<State> States { get; set; }
         public DbSet<ContributionPlan> ContributionPlans { get; set; }
         public DbSet<AcademicPeriod> AcademicPeriods { get; set; }
-        public DbSet<Career> Careers { get; set;}
-        public DbSet<Semester> Semesters { get; set;}
-        public DbSet<Contributor> Contributors { get; set;}
-        public DbSet<Transaction> Transactions { get; set;}
-        public DbSet<Student> Students { get; set;}
+        public DbSet<Career> Careers { get; set; }
+        public DbSet<Semester> Semesters { get; set; }
+        public DbSet<Contributor> Contributors { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Student> Students { get; set; }
         public DbSet<AdministrativeMember> AdministrativeMembers { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Permission> Permissions { get; set; }
@@ -71,7 +71,7 @@ namespace backendfepon.Data
             modelBuilder.ApplyConfiguration(new AccountTypeConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new InventoryMovementTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new InventoryMovementConfiguration());  
+            modelBuilder.ApplyConfiguration(new InventoryMovementConfiguration());
             modelBuilder.ApplyConfiguration(new FinantialRequestStateConfiguration());
             modelBuilder.ApplyConfiguration(new FinancialRequestConfiguration());
             modelBuilder.ApplyConfiguration(new AssociationConfiguration());

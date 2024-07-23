@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using backendfepon.Data;
 using backendfepon.DTOs.FinantialRequestDTOs;
-using backendfepon.DTOs.PermissionDTOs;
-using backendfepon.DTOs.ProductDTOs;
-using backendfepon.DTOs.TransactionDTOs;
 using backendfepon.Models;
 using backendfepon.Utils;
 using Microsoft.AspNetCore.Mvc;

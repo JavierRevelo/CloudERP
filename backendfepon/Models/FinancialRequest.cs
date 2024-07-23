@@ -1,6 +1,4 @@
-﻿using backendfepon.ModelConfigurations;
-
-namespace backendfepon.Models
+﻿namespace backendfepon.Models
 {
     public class FinancialRequest
     {

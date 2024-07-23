@@ -12,7 +12,7 @@
 
         public InventoryMovementType InventoryMovementType { get; set; }
 
-       public  State State { get; set; }
+        public State State { get; set; }
 
         public Product Product { get; set; }
     }

@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using backendfepon.Data;
 using backendfepon.DTOs.InventoryMovementDTOs;
-using backendfepon.DTOs.InventoryMovementTypeDTO;
-using backendfepon.DTOs.ProductDTOs;
 using backendfepon.Models;
 using backendfepon.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using System.Reflection.Metadata;
 
 namespace backendfepon.Controllers
 {
@@ -112,13 +109,13 @@ namespace backendfepon.Controllers
 
                 if (ProductExist(product.Product_Id))
                 {
-                    
 
-                    if (inventoryMovementType.Movement_Type_Id==1)
+
+                    if (inventoryMovementType.Movement_Type_Id == 1)
                     {
                         product.Quantity += inventoryMovementDTO.quantity;
                     }
-                    else if (inventoryMovementType.Movement_Type_Id > 1 && product.Quantity>=0  && (product.Quantity - inventoryMovementDTO.quantity >= 0))
+                    else if (inventoryMovementType.Movement_Type_Id > 1 && product.Quantity >= 0 && (product.Quantity - inventoryMovementDTO.quantity >= 0))
                     {
                         product.Quantity -= inventoryMovementDTO.quantity;
                     }
@@ -126,7 +123,7 @@ namespace backendfepon.Controllers
                     {
                         return StatusCode(500, GenerateErrorResponse(400, "el numero del producto es 0 no se puede reducir mas."));
                     }
-                    
+
 
                     _context.Entry(product).State = EntityState.Modified;
                     try
@@ -168,7 +165,7 @@ namespace backendfepon.Controllers
                 // Handle all other exceptions
                 return StatusCode(500, GenerateErrorResponse(500, "Ocurrió un error interno del servidor, no es posible crear el movimiento de inventario", ex));
             }
-          
+
         }
 
         // PUT: api/InventoryMovement/5

@@ -10,7 +10,7 @@
         public AdministrativeMember AdministrativeMember { get; set; }
 
         public EventExpense EventExpense { get; set; }
-     
-        
+
+
     }
 }

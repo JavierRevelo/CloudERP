@@ -45,5 +45,5 @@ namespace backendfepon.ModelConfigurations.Profiles
                 .ForMember(dest => dest.description, opt => opt.MapFrom(src => src.Reason));
 
         }
-}
+    }
 }

@@ -1,7 +1,5 @@
 ﻿using backendfepon.Data;
-using backendfepon.DTOs.AssociationDTOs;
 using backendfepon.DTOs.FinantialRequestStateDTOs;
-using backendfepon.DTOs.StateDTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

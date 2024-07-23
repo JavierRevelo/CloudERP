@@ -1,5 +1,4 @@
 ﻿using backendfepon.Data;
-using backendfepon.DTOs.EventExpenseDTO;
 using backendfepon.DTOs.SemesterDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

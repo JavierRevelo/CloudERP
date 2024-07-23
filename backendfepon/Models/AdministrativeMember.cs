@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Update.Internal;
-
-namespace backendfepon.Models
+﻿namespace backendfepon.Models
 {
     public class AdministrativeMember
     {

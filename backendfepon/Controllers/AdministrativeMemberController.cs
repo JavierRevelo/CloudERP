@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using backendfepon.Data;
 using backendfepon.DTOs.AdmnistrativeMemberDTOs;
-using backendfepon.DTOs.AssociationDTOs;
-using backendfepon.DTOs.ProductDTOs;
 using backendfepon.Models;
 using backendfepon.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -95,7 +93,7 @@ namespace backendfepon.Controllers
                 return StatusCode(500, GenerateErrorResponse(500, "\"Ocurrió un error interno del servidor, no es posible obtenet el miembro administrativo"));
             }
         }
- 
+
 
         [HttpPost]
         [Authorize(Policy = "AdminOnly")]
@@ -123,8 +121,8 @@ namespace backendfepon.Controllers
                 {
                     return BadRequest(GenerateErrorResponse(400, "Nombre de semestre no válido."));
                 }
-                
-                
+
+
 
                 // Verificar si el Role existe
                 var role = await _context.Roles.FirstOrDefaultAsync(r => r.Role_Name == administrativeMemberDTO.Position);
@@ -142,15 +140,15 @@ namespace backendfepon.Controllers
                 administrativeMember.Role_Id = role.Role_Id;
 
                 administrativeMember.State_Id = Constants.DEFAULT_STATE;
-                
+
 
                 // Guardar la nueva entidad en la base de datos
                 _context.AdministrativeMembers.Add(administrativeMember);
                 await _context.SaveChangesAsync();
-                
+
                 // Mapear la entidad creada de vuelta al DTO
                 var createdAdministrativeMemberDTO = _mapper.Map<AdministrativeMemberDTO>(administrativeMember);
-                
+
 
                 // Devolver la respuesta con el nuevo miembro administrativo creado
                 return CreatedAtAction(nameof(GetAdministrativeMember), new { id = administrativeMember.Administrative_Member_Id }, createdAdministrativeMemberDTO);
@@ -231,7 +229,7 @@ namespace backendfepon.Controllers
             }
         }
 
-    
+
 
 
         // DELETE: api/AdministrativeMembers/5

@@ -1,8 +1,5 @@
 ﻿using backendfepon.Data;
-using backendfepon.DTOs.CareerDTOs;
 using backendfepon.DTOs.CategoryDTOs;
-using backendfepon.DTOs.ProductDTOs;
-using backendfepon.DTOs.TransactionDTOs;
 using backendfepon.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

@@ -4,11 +4,11 @@ using backendfepon.Models;
 
 namespace backendfepon.ModelConfigurations.Profiles
 {
-   
-        public class PermissionProfile : Profile
+
+    public class PermissionProfile : Profile
+    {
+        public PermissionProfile()
         {
-            public PermissionProfile()
-            {
             // Mapeo de Permission a PermissionDTO
             CreateMap<Permission, PermissionDTO>()
                 .ForMember(dest => dest.Permission_Id, opt => opt.MapFrom(src => src.Permission_Id))
@@ -20,6 +20,6 @@ namespace backendfepon.ModelConfigurations.Profiles
                 .ForMember(dest => dest.Request, opt => opt.MapFrom(src => src.Request))
                 .ForMember(dest => dest.Status_Id, opt => opt.Ignore());
         }
-        }
+    }
 
 }

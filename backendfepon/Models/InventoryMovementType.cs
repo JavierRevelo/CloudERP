@@ -6,6 +6,6 @@
         public string Movement_Type_Name { get; set; }
 
         public ICollection<InventoryMovement> InventoryMovements { get; set; }
-      
+
     }
 }

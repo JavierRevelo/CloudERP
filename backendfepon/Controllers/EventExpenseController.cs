@@ -1,5 +1,4 @@
 ﻿using backendfepon.Data;
-using backendfepon.DTOs.AssociationDTOs;
 using backendfepon.DTOs.EventExpenseDTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
